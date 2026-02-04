@@ -1,0 +1,321 @@
+* {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+    margin: 0;
+  }
+  
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: #f4f6ff;
+  }
+  html, body, #root {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* GRID */
+  .layout {
+    display: grid;
+    grid-template-columns: 90px 1fr 444px;
+    height: 100vh;
+  }
+  
+  /* SIDEBAR */
+  .sidebar {
+    background: #695CAC;
+    border-radius: 35px 35px 35px 35px;
+    height: 98%;
+    margin-top: 7%;
+  }
+  
+  /* MAIN */
+  .main {
+    padding: 40px 20px 40px 10px; /* menos espaço à esquerda e direita */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin-left: 3%;
+  }
+  
+  /* TÍTULO */
+  .titulo {
+    font-size: 38px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #2E2948;
+    display: flex;
+
+  }
+  
+  /* CARDS */
+  .card {
+    background: #DCD9FF;
+    border-radius: 30px;
+    padding: 28px;
+    border: 2px #695CAC solid;
+  }
+  
+  /* NOTAS */
+  .notas {
+    margin-bottom: 25px;
+  }
+  
+  .tituloNota {
+    margin-bottom: 20px;
+    color: #5A54A3;
+  }
+  
+  .notas-inputs {
+    display: flex;
+    gap: 50px;
+  }
+  .notass{
+    text-align: center;
+  }
+  .notas-inputs span {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  
+  .notas-inputs input {
+    padding: 10px;
+    width: 140px;
+    border-radius: 12px;
+    border: 2px solid #695CAC;
+    background: white;
+    color: #695CAC;
+  }
+  
+  /* PARTE DE BAIXO */
+  .linha-inferior {
+    display: grid;
+    grid-template-columns: 2fr 1.3fr;
+    gap: 25px;
+    flex: 1;
+    min-height: 0;
+  }
+  
+  /* ENVIAR OBS */
+  .enviar h2 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .enviar textarea {
+    width: 100%;
+    height: 200px;
+    border-radius: 20px;
+    border: 2px solid #695CAC;
+    padding: 15px;
+    color: #2E2948;
+    background-color: #f4f6ff;
+    resize: none;
+    margin-top: 10px;
+  }
+  
+  /* OBS ENVIADAS */
+  .enviadas {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  
+  .enviadas h2 {
+    text-align: center;
+  }
+  
+  .lista-mensagens {
+    overflow-y: auto;
+    margin-top: 15px;
+    padding-right: 6px;
+    color: black;
+  }
+  
+  .mensagem {
+    background: white;
+    border-radius: 20px;
+    padding: 15px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+  }
+  .mensagem {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;   /* faz os filhos ocuparem a altura total */
+  }
+  
+  .avatar {
+    width: 14px;
+    align-self: stretch;    /* estica só ele */
+    background: orange;
+    border-radius: 20px;    /* não pode ser 50% senão vira pílula estranha */
+    margin: 6px 0;          /* respiro em cima e embaixo */
+  }
+  
+  /* PAINEL ALUNOS */
+  .alunos {
+    padding: 25px 15px; /* quase colado na borda direita */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .student {
+    align-self: flex-end;
+    margin-bottom: 15px;
+  }
+  
+  .alunos input {
+    padding: 12px 18px;
+    border-radius: 25px;
+    border: 2px solid #695CAC;
+    margin-bottom: 15px;
+    background-color: #f4f6ff;
+  }
+  
+  /* LISTA ALUNOS */
+  .lista-alunos {
+    overflow-y: auto;
+  }
+  .aluno {
+    background: #DCD9FF;
+    padding: 16px 18px;
+    width: 400px;              /* tira largura fixa */
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    border: 2px #695CAC solid;
+  }
+  
+  /* Container que segura nome + matrícula */
+  .infoAluno {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Nome */
+  .nomeAluno {
+    font-weight: 600;
+    font-size: 16px;
+    color: #2E2948;
+  }
+  
+  /* Bloco da matrícula */
+  .matriculaBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.1;
+  }
+  
+  .matriculaLabel {
+    font-size: 12px;
+    color: #6b6b6b;
+  }
+  
+  .matriculaNumero {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2E2948;
+  }
+      
+  
+  .bolinha {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px #695CAC solid;
+  }
+  
+  .nomeAluno {
+    display: block;
+    font-weight: 600;
+  }
+  
+  .aluno small {
+    color: #555;
+  }
+  
+  /* SCROLL */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #b8b8b8;
+    border-radius: 6px;
+  }
+  .enviadas{
+    background-color: #f4f6ff;
+    color:#5A54A3;
+  }
+  /* Card individual da mensagem */
+.mensagem {
+    background: white;
+    border-radius: 18px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 2px solid #695CAC;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* Cabeçalho */
+  .msg-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  /* Bolinha */
+  .msg-avatar {
+    width: 36px;
+    height: 36px;
+    background: orange;
+    border-radius: 50%;
+    border: 2px solid #695CAC;
+  }
+  
+  /* Nome + subtítulo */
+  .msg-user {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  
+  .msg-user strong {
+    font-size: 14px;
+    color: #2E2948;
+  }
+  
+  .msg-user span {
+    font-size: 12px;
+    color: #A59FF3;
+  }
+  
+  /* Texto da mensagem */
+  .msg-texto {
+    font-size: 14px;
+    color: #2E2948;
+    line-height: 1.5;
+  }
+  .enviadas {
+    background: #F8F7FF;
+    border-radius: 30px;
+    border: 2px solid #695CAC;
+    padding: 22px;
+  }
+  .enviadas h2 {
+    text-align: left;
+    color: #6c63ff;
+    margin-bottom: 12px;
+  }
+  
