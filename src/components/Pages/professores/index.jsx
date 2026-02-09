@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./professores.css";
-import Logo from "../assets/logo.svg";
-import Aviao from "../assets/aviao.svg";
+import Logo from "../../../assets/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function DashboardProfessor() {
   const alunos = [
@@ -24,6 +24,7 @@ export default function DashboardProfessor() {
   const [pesquisa, setPesquisa] = useState("");
   const [observacao, setObservacao] = useState("");
   const [mensagens, setMensagens] = useState([]);
+  const navigate = useNavigate();
 
   const media = ((nota1 + nota2) / 2).toFixed(1);
 
@@ -53,7 +54,7 @@ export default function DashboardProfessor() {
   return (
     <div className="layout">
       <aside className="sidebar">
-        <div className="sidebar-perfil">
+        <div className="sidebar-perfil" onClick={() => navigate("/perfilProfessor")}>
           <div className="avatar-sidebar">J</div>
         </div>
       </aside>
