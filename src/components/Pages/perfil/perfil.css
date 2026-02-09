@@ -1,0 +1,153 @@
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  .perfil-page {
+    display: flex;
+    min-height: 100vh;
+    background: #f9f9ff;
+  }
+  
+  /* SIDEBAR */
+  .perfil-sidebar {
+    position: fixed;       
+    top: 20px;              
+    left: 20px;             
+    width: 70px;
+    height: 95%;
+    background: #5b56a6;
+    border-radius: 25px;
+  }
+  
+  
+  /* CONTEÚDO */
+  .perfil-content {
+    flex: 1;
+    padding: 40px 60px;
+    margin-left: 120px; 
+  }
+  
+  /* HEADER */
+  .perfil-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .perfil-header h2 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .perfil-header .sub {
+    font-size: 14px;
+    color: #8b87c9;
+  }
+  
+  .student-tag {
+    font-weight: bold;
+    color: #6c63ff;
+  }
+  
+  /* CARD */
+  .perfil-card {
+    background: white;
+    border: 2px solid #cfcdf8;
+    border-radius: 30px;
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    gap: 80px;
+  }
+  
+  /* FOTO */
+  .foto-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .foto-box {
+    width: 260px;
+    height: 260px;
+    background: #92b36b;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .camera-icon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: white;
+    font-size: 22px;
+  }
+  
+  .upload-btn {
+    margin-top: 20px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 2px solid #d7d5ff;
+    background: #f3f2ff;
+    color: #7b78d8;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 500;
+  }
+  
+  /* FORM */
+  .form-section {
+    flex: 0.6;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    justify-content: flex-end;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    width: 429px;
+    gap: 6px;
+  }
+  
+  .input-group label {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .input-group input {
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #695CAC;
+    background-color: #ffff;
+    outline: none;
+    padding: 20px;
+    font-size: 14px;
+  }
+  
+  /* BOTÃO SALVAR */
+  .salvar-btn {
+    align-self: flex-end;
+    margin-top: 20px;
+    margin-right: 126px;
+    padding: 14px 40px;
+    background: #f2b705;
+    border: none;
+    border-radius: 10px;
+    color: #3a2e00;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .student-tag span{
+    color: #f2b705;
+    font-size: 25px;
+  }
