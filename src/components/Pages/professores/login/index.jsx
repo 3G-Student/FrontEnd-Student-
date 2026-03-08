@@ -38,11 +38,12 @@ export default function Login() {
       const data = await response.json();
 
       localStorage.setItem("token", data.token);
-      const token = localStorage.getItem("token");
-      localStorage.setItem("professorId", data.id);
-      localStorage.setItem("nomeProfessor", data.nome);
-      localStorage.setItem("tipoUsuario", data.tipo);
-  
+      localStorage.setItem("idUsuario", data.idUsuario);
+      localStorage.setItem("idTipoUsuario", data.idTipoUsuario);
+      localStorage.setItem("idProfessor", data.idProfessor);
+      localStorage.setItem("idAluno", data.idAluno);
+      localStorage.setItem("idSecretario", data.idSecretario);
+        
       navigate("/professores");
   
     } catch (err) {
@@ -51,7 +52,6 @@ export default function Login() {
       setLoading(false);
     }
   };
-
   return (
     <div className="cadastro-page">
       <div className="cadastro-card">
