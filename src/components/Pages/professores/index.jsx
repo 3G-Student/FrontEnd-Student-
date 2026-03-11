@@ -191,6 +191,61 @@ export default function DashboardProfessor() {
       })
       .catch((error) => console.error("Erro:", error));
   };
+  useEffect(() => {
+    const professorId = Number(localStorage.getItem("idProfessor"));
+  
+    fetch(`${backendURL}/api/professorDisciplina/listar`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Erro ao buscar disciplinas");
+        return response.json();
+      })
+      .then((data) => {
+        const relacao = data.find(
+          (item) => item.professorId === professorId
+        );
+  
+        if (relacao) {
+          setDisciplinaId(relacao.disciplinaId);
+        } else {
+          console.error("Professor não possui disciplina vinculada");
+        }
+      })
+      .catch((error) => console.error("Erro:", error));
+  }, []);
+  const cadastrarBoletim = () => {
+    if (!disciplinaId || !alunoSelecionado) {
+      alert("Disciplina ou aluno não encontrado");
+      return;
+    }
+  
+    fetch(`${backendURL}/api/Boletim/cadastrar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        disciplinaId: disciplinaId,
+        alunoId: alunoSelecionado.idAluno,
+        nota1: nota1,
+        nota2: nota2,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Erro ao cadastrar boletim");
+        return response.text();
+      })
+      .then(() => {
+        setMostrarSucesso(true);
+        setTimeout(() => setMostrarSucesso(false), 3000);
+      })
+      .catch((error) => console.error("Erro:", error));
+  };
   return (
     <div className="layout">
       <aside className="sidebar">
@@ -244,7 +299,7 @@ export default function DashboardProfessor() {
 
             <button
               className="registrar-notas"
-              onClick={registrarNotas}
+              onClick={cadastrarBoletim}
             >
               Registrar
             </button>
@@ -325,6 +380,17 @@ export default function DashboardProfessor() {
       )}
       {toastObs && (
         <div className="toast-sucesso">Observação enviada!</div>
+      )}
+      {mostrarSucesso && (
+        <div className="toast-sucesso">
+          Nota cadastrada com sucesso!
+        </div>
+      )}
+
+      {toastObs && (
+        <div className="toast-sucesso">
+          Observação enviada com sucesso!
+        </div>
       )}
     </div>
   );

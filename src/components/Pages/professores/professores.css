@@ -1,573 +1,598 @@
 * {
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    padding: 0;
-    margin: 0;
-  }
-  
-  html, body {
-    height: 95%;
-    overflow: hidden;
-    background: #FBFAFF;
-  }
-  html, body, #root {
-    width: 100%;
-    max-width: 100%;
-  }
-  
-  .layout {
-    display: grid;
-    grid-template-columns: 120px 1fr 444px;
-    gap: 25px; 
-    padding: 20px;
-  }
-  
-  
-  /* SIDEBAR */
-  .sidebar {
-    background: #695CAC;
-    border-radius: 35px;
-    height: 98%;
-    margin-top: 5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 25px;
-    gap: 18px;
-  }
-    
-  /* TÍTULO */
-  .titulo {
-    font-size: 38px;
-    font-weight: 600;
-    margin-bottom: 25px;
-    color: #2E2948;
-    display: flex;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+}
 
-  }
-  
-  /* CARDS */
-  .card {
-    background: #DCD9FF;
-    border-radius: 30px;
-    padding: 28px;
-    border: 2px #695CAC solid;
-  }
-  
-  /* NOTAS */
-  .notas {
-    margin-bottom: 25px;
-  }
-  
-  .tituloNota {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #5A54A3;
-  }
-  
-  .notas-inputs {
-    display: flex;
-    gap: 40px;
-    justify-content: flex-start; 
-    align-items: flex-end;
-    flex-wrap: wrap;
-  }
-  
-  
-  
-  .notas-inputs span {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 6px;
-    color: #5A54A3;
-  }
-  
-  .notas-inputs input {
-    padding: 10px;
-    width: 140px;
-    border-radius: 12px;
-    border: 2px solid #695CAC;
-    background: white;
-    color: #695CAC;
-  }
-  
-  /* PARTE DE BAIXO */
-  .linha-inferior {
-    display: grid;
-    grid-template-columns: 2fr 1.3fr;
-    gap: 25px;
-  }
-  
-  
-  /* ENVIAR OBS */
-  .enviar h2 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #695CAC;
-  }
-  
-  .enviar textarea {
-    width: 100%;
-    height: 200px;
-    border-radius: 20px;
-    border: 2px solid #695CAC;
-    padding: 15px;
-    color: #2E2948;
-    background-color: #f4f6ff;
-    resize: none;
-    margin-top: 10px;
-  }
-  
-  /* OBS ENVIADAS */
-  .enviadas {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-  }
-  
-  .enviadas h2 {
-    text-align: center;
-    color: #695CAC;
-  }
-  
-  .lista-mensagens {
-    overflow-y: auto;
-    margin-top: 15px;
-    padding-right: 6px;
-    color: black;
-  }
-  
-  .mensagem {
-    background: white;
-    border-radius: 20px;
-    padding: 15px;
-    display: flex;
-    gap: 12px;
-    margin-bottom: 15px;
-  }
-  .mensagem {
-    display: flex;
-    gap: 12px;
-    align-items: stretch; 
-  }
-  
-  .avatar {
-    width: 14px;
-    align-self: stretch;  
-    background: orange;
-    border-radius: 20px;   
-    margin: 6px 0;          
-  }
-  
-  /* PAINEL ALUNOS */
-  .alunos {
-    padding: 25px 15px; 
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .student {
-    align-self: flex-end;
-    margin-bottom: 15px;
-  }
-  
-  .alunos input {
-    padding: 12px 18px;
-    border-radius: 25px;
-    border: 2px solid #695CAC;
-    margin-bottom: 15px;
-    background-color: #f4f6ff;
-    color: #695CAC;
-  }
-  
-  /* LISTA ALUNOS */
-  .lista-alunos {
-    overflow-y: auto;
-  }
-  .aluno {
-    background: #DCD9FF;
-    padding: 16px 18px;
-    width: 400px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 14px;
-    border: 2px #695CAC solid;
-  }
-  
-  /* Container que segura nome + matrícula */
-  .infoAluno {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  /* Nome */
-  .nomeAluno {
-    font-weight: 600;
-    font-size: 16px;
-    color: #2E2948;
-  }
-  
-  /* Bloco da matrícula */
-  .matriculaBox {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    line-height: 1.1;
-  }
-  .span1{
-    color: #2E2948;
-  }
-  .span2{
-    color: #7B7794;
-  }
-  
-  .matriculaLabel {
-    font-size: 12px;
-    color: #6b6b6b;
-  }
-  
-  .matriculaNumero {
-    font-size: 14px;
-    font-weight: 600;
-    color: #2E2948;
-  }
-      
-  
-  .bolinha {
-    width: 38px;
-    height: 33px;
-    border-radius: 50%;
-    border: 2px #695CAC solid;
-  }
-  
-  .nomeAluno {
-    display: block;
-    font-weight: 600;
-  }
-  
-  .aluno small {
-    color: #555;
-  }
-  
-  /* SCROLL */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #b8b8b8;
-    border-radius: 6px;
-  }
-  .enviadas{
-    background-color: #f4f6ff;
-    color:#5A54A3;
-  }
-  .butao {
-    padding: 12px 22px;
-    border-radius: 12px;
-    border: 2px solid #695CAC;
-    background: white;
-    color: #695CAC;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-left: 10%;
-    height: 42px;         
-  }
-  
-  .butao:hover {
-    transform: translateY(-2px);
-  }
-  
-  .butao:active {
-    transform: scale(0.98);
-  }
-  
-  .butao:disabled {
-    background: #b8b8b8;
-    cursor: not-allowed;
-    box-shadow: none;
-  }
-  /* Card individual da mensagem */
-.mensagem {
-    background: white;
-    border-radius: 18px;
-    padding: 16px;
-    margin-bottom: 16px;
-    border: 2px solid #695CAC;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  /* Cabeçalho */
-  .msg-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  /* Bolinha */
-  .msg-avatar {
-    width: 36px;
-    height: 36px;
-    background: orange;
-    border-radius: 50%;
-    border: 2px solid #695CAC;
-  }
-  
-  /* Nome + subtítulo */
-  .msg-user {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-  }
-  
-  .msg-user strong {
-    font-size: 14px;
-    color: #2E2948;
-  }
-  
-  .msg-user span {
-    font-size: 12px;
-    color: #A59FF3;
-  }
-  
-  /* Texto da mensagem */
-  .msg-texto {
-    font-size: 14px;
-    color: #2E2948;
-    line-height: 1.5;
-  }
-  .enviadas {
-    background: #F8F7FF;
-    border-radius: 30px;
-    border: 2px solid #695CAC;
-    padding: 22px;
-  }
-  .enviadas h2 {
-    text-align: left;
-    margin-bottom: 12px;
-  }
-/* FUNDO ESCURO */
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-  }
-  
-  /* MODAL */
-  .modal {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    width: 320px;
-    text-align: center;
-    border: 2px solid #695CAC;
-    animation: aparecer 0.2s ease;
-  }
-  
-  .modal h3 {
-    color: #2E2948;
-    margin-bottom: 10px;
-  }
-  
-  .modal p {
-    color: #555;
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  
-  /* BOTÕES */
-  .modal-botoes {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  
-  .cancelar {
-    flex: 1;
-    padding: 10px;
-    border-radius: 12px;
-    border: 2px solid #ccc;
-    background: #f4f4f4;
-    cursor: pointer;
-    color: #695CAC;
-  }
-  
-  .confirmar {
-    flex: 1;
-    padding: 10px;
-    border-radius: 12px;
-    border: none;
-    background: #695CAC;
-    color: white;
-    cursor: pointer;
-  }
-  
-  /* TOAST */
-  .toast-sucesso {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #7ED957;
-    color: #1b3d00;
-    padding: 16px 22px;
-    border-radius: 14px;
-    font-weight: 600;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    z-index: 1000;
-    animation: slideIn 0.3s ease;
-  }
-  
-  /* ANIMAÇÕES */
-  @keyframes slideIn {
-    from { transform: translateX(120%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  
-  @keyframes aparecer {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-  .status {
-    margin-top: 10px;
-    font-weight: bold;
-    padding: 6px 10px;
-    border-radius: 8px;
-    text-align: center;
-  }
-  
-  .status.aprovado { background: #d4edda; color: #155724; width: 200px; }
-  .status.recuperação { background: #fff3cd; color: #856404; }
-  .status.reprovado { background: #f8d7da; color: #721c24; }
-  
-  .aluno.ativo {
-    border: 2px solid #38b6f5;
-    background: #eef7ff;
-  }
-  .registrar-notas{
-    background-color: #695CAC;
-    width: 140px;
-  }
-  .registrar-notass{
-    background-color: #695CAC;
-    margin-left: 80%;
-  }
-  .divNota1{
-    margin-left: 5%;
-  }
-  .topo-notas {
+html, body {
+  height: 95%;
+  overflow: hidden;
+  background: #FBFAFF;
+}
+html, body, #root {
+  width: 100%;
+  max-width: 100%;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 120px 1fr 444px;
+  gap: 25px; 
+  padding: 20px;
+}
+
+
+/* SIDEBAR */
+.sidebar {
+  background: #695CAC;
+  border-radius: 35px;
+  height: 98%;
+  margin-top: 5%;
   display: flex;
-  justify-content: space-between; 
-  align-items: flex-start;
-  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+  gap: 18px;
+}
+  
+/* TÍTULO */
+.titulo {
+  font-size: 38px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #2E2948;
+  display: flex;
+
+}
+
+/* CARDS */
+.card {
+  background: #DCD9FF;
+  border-radius: 30px;
+  padding: 28px;
+  border: 2px #695CAC solid;
+}
+
+/* NOTAS */
+.notas {
+  margin-bottom: 25px;
 }
 
 .tituloNota {
-  text-align: left; 
-  margin-bottom: 0;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #5A54A3;
 }
+
 .notas-inputs {
   display: flex;
   gap: 40px;
+  justify-content: flex-start; 
   align-items: flex-end;
+  flex-wrap: wrap;
 }
 
-.registrar-notas {
-  margin-left: 17%;
-}
-.sidebar-perfil {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
 
-.avatar-sidebar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #7ED957;
-  color: #2E2948;
-  font-weight: 700;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.sidebar-nome {
-  color: white;
-  font-size: 13px;
-  margin-top: 8px;
-  font-weight: 500;
-}
-
-.sidebar-tipo {
-  color: #DCD9FF;
-  font-size: 11px;
-}
-.sidebar-perfil {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.avatar-sidebar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #7ED957;
-  color: #2E2948;
-  font-weight: 700;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sidebar-nome {
-  color: white;
+.notas-inputs span {
+  display: block;
   font-size: 14px;
-  margin-top: 8px;
+  margin-bottom: 6px;
+  color: #5A54A3;
+}
+
+.notas-inputs input {
+  padding: 10px;
+  width: 140px;
+  border-radius: 12px;
+  border: 2px solid #695CAC;
+  background: white;
+  color: #695CAC;
+}
+
+/* PARTE DE BAIXO */
+.linha-inferior {
+  display: grid;
+  grid-template-columns: 2fr 1.3fr;
+  gap: 25px;
+}
+
+
+/* ENVIAR OBS */
+.enviar h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #695CAC;
+}
+
+.enviar textarea {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+  border: 2px solid #695CAC;
+  padding: 15px;
+  color: #2E2948;
+  background-color: #f4f6ff;
+  resize: none;
+  margin-top: 10px;
+}
+
+/* OBS ENVIADAS */
+.enviadas {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.enviadas h2 {
+  text-align: center;
+  color: #695CAC;
+}
+
+.lista-mensagens {
+  overflow-y: auto;
+  margin-top: 15px;
+  padding-right: 6px;
+  color: black;
+}
+
+.mensagem {
+  background: white;
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+.mensagem {
+  display: flex;
+  gap: 12px;
+  align-items: stretch; 
+}
+
+.avatar {
+  width: 14px;
+  align-self: stretch;  
+  background: orange;
+  border-radius: 20px;   
+  margin: 6px 0;          
+}
+
+/* PAINEL ALUNOS */
+.alunos {
+  padding: 25px 15px; 
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.student {
+  align-self: flex-end;
+  margin-bottom: 15px;
+}
+
+.alunos input {
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: 2px solid #695CAC;
+  margin-bottom: 15px;
+  background-color: #f4f6ff;
+  color: #695CAC;
+}
+
+/* LISTA ALUNOS */
+.lista-alunos {
+  overflow-y: auto;
+}
+.aluno {
+  background: #DCD9FF;
+  padding: 16px 18px;
+  width: 400px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  border: 2px #695CAC solid;
+}
+
+/* Container que segura nome + matrícula */
+.infoAluno {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Nome */
+.nomeAluno {
+  font-weight: 600;
+  font-size: 16px;
+  color: #2E2948;
+}
+
+/* Bloco da matrícula */
+.matriculaBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.1;
+}
+.span1{
+  color: #2E2948;
+}
+.span2{
+  color: #7B7794;
+}
+
+.matriculaLabel {
+  font-size: 12px;
+  color: #6b6b6b;
+}
+
+.matriculaNumero {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2E2948;
+}
+    
+
+.bolinha {
+  width: 38px;
+  height: 33px;
+  border-radius: 50%;
+  border: 2px #695CAC solid;
+}
+
+.nomeAluno {
+  display: block;
   font-weight: 600;
 }
 
-.sidebar-tipo {
-  color: #DCD9FF;
-  font-size: 12px;
+.aluno small {
+  color: #555;
 }
-.breadcrumb {
+
+/* SCROLL */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b8b8b8;
+  border-radius: 6px;
+}
+.enviadas{
+  background-color: #f4f6ff;
+  color:#5A54A3;
+}
+.butao {
+  padding: 12px 22px;
+  border-radius: 12px;
+  border: 2px solid #695CAC;
+  background: white;
+  color: #695CAC;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-left: 10%;
+  height: 42px;         
+}
+
+.butao:hover {
+  transform: translateY(-2px);
+}
+
+.butao:active {
+  transform: scale(0.98);
+}
+
+.butao:disabled {
+  background: #b8b8b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+/* Card individual da mensagem */
+.mensagem {
+  background: white;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 2px solid #695CAC;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Cabeçalho */
+.msg-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Bolinha */
+.msg-avatar {
+  width: 36px;
+  height: 36px;
+  background: orange;
+  border-radius: 50%;
+  border: 2px solid #695CAC;
+}
+
+/* Nome + subtítulo */
+.msg-user {
   display: flex;
   flex-direction: column;
   line-height: 1.1;
+}
+
+.msg-user strong {
+  font-size: 14px;
+  color: #2E2948;
+}
+
+.msg-user span {
+  font-size: 12px;
+  color: #A59FF3;
+}
+
+/* Texto da mensagem */
+.msg-texto {
+  font-size: 14px;
+  color: #2E2948;
+  line-height: 1.5;
+}
+.enviadas {
+  background: #F8F7FF;
+  border-radius: 30px;
+  border: 2px solid #695CAC;
+  padding: 22px;
+}
+.enviadas h2 {
+  text-align: left;
+  margin-bottom: 12px;
+}
+/* FUNDO ESCURO */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* MODAL */
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 320px;
+  text-align: center;
+  border: 2px solid #695CAC;
+  animation: aparecer 0.2s ease;
+}
+
+.modal h3 {
+  color: #2E2948;
   margin-bottom: 10px;
-  margin-top: 2.5%;
+}
+
+.modal p {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* BOTÕES */
+.modal-botoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cancelar {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px solid #ccc;
+  background: #f4f4f4;
+  cursor: pointer;
+  color: #695CAC;
+}
+
+.confirmar {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background: #695CAC;
+  color: white;
+  cursor: pointer;
+}
+
+/* TOAST */
+.toast-sucesso {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #7ED957;
+  color: #1b3d00;
+  padding: 16px 22px;
+  border-radius: 14px;
+  font-weight: 600;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+
+/* ANIMAÇÕES */
+@keyframes slideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.status {
+  margin-top: 10px;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.status.aprovado { background: #d4edda; color: #155724; width: 200px; }
+.status.recuperação { background: #fff3cd; color: #856404; }
+.status.reprovado { background: #f8d7da; color: #721c24; }
+
+.aluno.ativo {
+  border: 2px solid #38b6f5;
+  background: #eef7ff;
+}
+.registrar-notas{
+  background-color: #695CAC;
+  width: 140px;
+}
+.registrar-notass{
+  background-color: #695CAC;
+  margin-left: 80%;
+}
+.divNota1{
+  margin-left: 5%;
+}
+.topo-notas {
+display: flex;
+justify-content: space-between; 
+align-items: flex-start;
+margin-bottom: 20px;
+}
+
+.tituloNota {
+text-align: left; 
+margin-bottom: 0;
+}
+.notas-inputs {
+display: flex;
+gap: 40px;
+align-items: flex-end;
+}
+
+.registrar-notas {
+margin-left: 17%;
+}
+.sidebar-perfil {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+}
+
+.avatar-sidebar {
+width: 48px;
+height: 48px;
+border-radius: 50%;
+background: #7ED957;
+color: #2E2948;
+font-weight: 700;
+font-size: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.sidebar-nome {
+color: white;
+font-size: 13px;
+margin-top: 8px;
+font-weight: 500;
+}
+
+.sidebar-tipo {
+color: #DCD9FF;
+font-size: 11px;
+}
+.sidebar-perfil {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+}
+
+.avatar-sidebar {
+width: 52px;
+height: 52px;
+border-radius: 50%;
+background: #7ED957;
+color: #2E2948;
+font-weight: 700;
+font-size: 22px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.sidebar-nome {
+color: white;
+font-size: 14px;
+margin-top: 8px;
+font-weight: 600;
+}
+
+.sidebar-tipo {
+color: #DCD9FF;
+font-size: 12px;
+}
+.breadcrumb {
+display: flex;
+flex-direction: column;
+line-height: 1.1;
+margin-bottom: 10px;
+margin-top: 2.5%;
 }
 
 .home {
-  font-size: 14px;
-  color: #2E2948;
-  font-weight: 500;
+font-size: 14px;
+color: #2E2948;
+font-weight: 500;
 }
 
 .professor {
-  font-size: 12px;
-  color: #A59FF3;
+font-size: 12px;
+color: #A59FF3;
+}
+
+.toast-sucesso {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #22c55e;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
