@@ -7,8 +7,8 @@ export default function DashboardProfessor() {
   const backendURL = import.meta.env.VITE_BACKEND_URL; 
   const [alunos, setAlunos] = useState([]);
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);
-  const [nota1, setNota1] = useState(7.5);
-  const [nota2, setNota2] = useState(7.5);
+  const [nota1, setNota1] = useState("");
+  const [nota2, setNota2] = useState("");
   const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
   const [mostrarSucesso, setMostrarSucesso] = useState(false);
   const [toastObs, setToastObs] = useState(false);
@@ -19,11 +19,15 @@ export default function DashboardProfessor() {
   const navigate = useNavigate();
   const [disciplinaId, setDisciplinaId] = useState(null);
   
-  const media = ((nota1 + nota2) / 2).toFixed(1);
 
-  let status = "Aprovado";
-  if (media < 6) status = "Reprovado";
-  else if (media < 7) status = "Recuperação";
+  let media = "";
+  let status = "Pendente";
+  if (nota1 !== "" && nota2 !== "") {
+    media = ((Number(nota1) + Number(nota2)) / 2).toFixed(1);
+    if (media < 6) status = "Reprovado";
+    else if (media < 7) status = "Recuperação";
+    else status = "Aprovado";
+  }
 
   const alunosFiltrados = alunos.filter((aluno) => {
     const termo = pesquisa.toLowerCase();
@@ -63,7 +67,7 @@ export default function DashboardProfessor() {
         console.error("ERRO COMPLETO:", error);
         alert(error.message);
       });  }, 
-      []);
+  []);
 
   useEffect(() => {
     if (!alunoSelecionado) return;
@@ -133,6 +137,7 @@ export default function DashboardProfessor() {
       .catch((error) => console.error("Erro:", error));
 
   };
+
   useEffect(() => {
     const professorId = Number(localStorage.getItem("idProfessor"));
   
@@ -161,36 +166,7 @@ export default function DashboardProfessor() {
       })
       .catch((error) => console.error("Erro:", error));
   }, []);
-  const registrarNotas = () => {
 
-    if (!disciplinaId || !alunoSelecionado) {
-      alert("Disciplina ou aluno não encontrado");
-      return;
-    }
-  
-    fetch(`${backendURL}/api/media/cadastrar`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        disciplinaId: disciplinaId,
-        alunoId: alunoSelecionado.idAluno,
-        nota1: nota1,
-        nota2: nota2,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Erro ao registrar notas");
-        return response.text();
-      })
-      .then(() => {
-        setMostrarSucesso(true);
-        setTimeout(() => setMostrarSucesso(false), 3000);
-      })
-      .catch((error) => console.error("Erro:", error));
-  };
   useEffect(() => {
     const professorId = Number(localStorage.getItem("idProfessor"));
   
@@ -217,9 +193,14 @@ export default function DashboardProfessor() {
       })
       .catch((error) => console.error("Erro:", error));
   }, []);
+
   const cadastrarBoletim = () => {
     if (!disciplinaId || !alunoSelecionado) {
       alert("Disciplina ou aluno não encontrado");
+      return;
+    }
+    if (nota1 === "" || nota2 === "") {
+      alert("Preencha as duas notas antes de enviar a nota");
       return;
     }
   
@@ -246,13 +227,22 @@ export default function DashboardProfessor() {
       })
       .catch((error) => console.error("Erro:", error));
   };
+
+  const handleNota = (valor, setNota) => {
+    if (valor === "") {
+      setNota("");
+      return;
+    }
+    const numero = Number(valor);
+    if (numero < 0) return;
+    if (numero > 10) return;
+    setNota(numero);
+  };
+
   return (
     <div className="layout">
       <aside className="sidebar">
-        <div
-          className="sidebar-perfil"
-          onClick={() => navigate("/perfilProfessor")}
-        >
+        <div className="sidebar-perfil" onClick={() => navigate("/perfilProfessor")}>
           <div className="avatar-sidebar">J</div>
         </div>
       </aside>
@@ -276,20 +266,12 @@ export default function DashboardProfessor() {
           <div className="notas-inputs">
             <div>
               <span className="divNota1">Nota 1</span>
-              <input
-                type="number"
-                value={nota1}
-                onChange={(e) => setNota1(+e.target.value)}
-              />
+              <input type="number" min="0" max="10" step="0.1" value={nota1} onChange={(e) => handleNota(e.target.value, setNota1)}/>
             </div>
 
             <div className="menosPraEsquerda">
               <span>Nota 2</span>
-              <input
-                type="number"
-                value={nota2}
-                onChange={(e) => setNota2(+e.target.value)}
-              />
+              <input type="number" min="0" max="10" step="0.1" value={nota2} onChange={(e) => handleNota(e.target.value, setNota2)}/>
             </div>
 
             <div>
@@ -297,10 +279,7 @@ export default function DashboardProfessor() {
               <input type="number" value={media} readOnly />
             </div>
 
-            <button
-              className="registrar-notas"
-              onClick={cadastrarBoletim}
-            >
+            <button className="registrar-notas" onClick={cadastrarBoletim}>
               Registrar
             </button>
           </div>
@@ -309,15 +288,8 @@ export default function DashboardProfessor() {
         <div className="linha-inferior">
           <section className="card enviar">
             <h2>Enviar observação</h2>
-            <textarea
-              placeholder="Digite sua observação"
-              value={observacao}
-              onChange={(e) => setObservacao(e.target.value)}
-            />
-            <button
-              className="registrar-notass"
-              onClick={enviarObservacao}
-            >
+            <textarea placeholder="Digite sua observação" value={observacao} onChange={(e) => setObservacao(e.target.value)}/>
+            <button className="registrar-notass" onClick={enviarObservacao}>
               Enviar
             </button>
           </section>
@@ -345,24 +317,12 @@ export default function DashboardProfessor() {
 
       <aside className="alunos">
         <img className="student" src={Logo} alt="Logo" />
-        <input
-          placeholder="Pesquisar aluno"
-          value={pesquisa}
-          onChange={(e) => setPesquisa(e.target.value)}
-        />
+        <input placeholder="Pesquisar aluno" value={pesquisa} onChange={(e) => setPesquisa(e.target.value)}/>
 
         <div className="lista-alunos">
           {alunosFiltrados.map((a) => (
-            <div
-              key={a.idAluno}
-              className="aluno"
-              onClick={() => setAlunoSelecionado(a)}
-            >
-              <img
-                className="bolinha"
-                src={`https://picsum.photos/seed/${a.idAluno}/100`}
-                alt="Foto do aluno"
-              />
+            <div key={a.idAluno} className="aluno" onClick={() => setAlunoSelecionado(a)}>
+              <img className="bolinha" src={`https://picsum.photos/seed/${a.idAluno}/100`} alt="Foto do aluno" />
               <div className="infoAluno">
                 <strong className="nomeAluno">{a.nome}</strong>
                 <div className="matriculaBox">
