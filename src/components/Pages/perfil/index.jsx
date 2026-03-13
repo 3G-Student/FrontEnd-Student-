@@ -8,12 +8,14 @@ export default function PerfilProfessor() {
   const navigate = useNavigate();
 
   const [popupSucesso, setPopupSucesso] = useState(false);
+  const [popupErro, setPopupErro] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
+  const [totalObservacoes, setTotalObservacoes] = useState(0);
 
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
-
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080"
   // regex validação senha
   const validarSenha = (senha) => {
     const regex =
@@ -30,7 +32,7 @@ export default function PerfilProfessor() {
       console.error("ID do usuário não encontrado");
       return;
     }
-    fetch(`${backendURL}/api/Aluno/perfil/${usuarioId}`, {
+    fetch(`${backendURL}/api/Usuario/perfil/${usuarioId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -58,14 +60,16 @@ export default function PerfilProfessor() {
     const token = localStorage.getItem("token");
 
     if (!idUsuario) {
-      alert("Usuário não encontrado");
+      setPopupErro("Usuário não encontrado");
+      setTimeout(() => setPopupErro(""), 3000);
       return;
     }
 
     if (!validarSenha(novaSenha)) {
-      alert(
-        "A senha deve ter no mínimo 8 caracteres, incluindo: 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial."
+      setPopupErro(
+        "A senha precisa ter 8 caracteres, com maiúscula, minúscula, número e caractere especial."
       );
+      setTimeout(() => setPopupErro(""), 4000);
       return;
     }
 
@@ -91,9 +95,40 @@ export default function PerfilProfessor() {
       setNovaSenha("");
     } catch (error) {
       console.error(error);
-      alert("Erro ao atualizar senha");
+      setPopupErro("Usuário não encontrado");
+      setTimeout(() => setPopupErro(""), 3000);
+      return;     
     }
   };
+
+  useEffect(() => {
+
+    const idProfessor = localStorage.getItem("idProfessor");
+    const token = localStorage.getItem("token");
+  
+    if (!idProfessor) return;
+  
+    fetch(`${backendURL}/api/Observacao/buscarObservacoesPorIdProfessor/${idProfessor}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar observações");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setTotalObservacoes(data.length);
+  
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar observações:", error);
+      });
+  
+  }, []);
 
   return (
     <div className="perfil-page">
@@ -132,15 +167,24 @@ export default function PerfilProfessor() {
         </div>
 
         <div className="perfil-card">
-          <div className="foto-section">
-            <div className="foto-box">
-              <img src="https://picsum.photos/200" alt="Foto de perfil" className="perfil-img"/>
+          <div className="perfil-info-card">''
+            <div className="avatar-professor">
+              {nome ? nome.charAt(0).toUpperCase() : "P"}
             </div>
-
-            <button className="upload-btn">
-              <FaUpload />
-              Fazer upload de nova foto
-            </button>
+            <h3 className="prof-nome">{nome}</h3>
+            <p className="prof-email">{email}</p>
+            <div className="prof-info-extra">
+              <span>Tipo de conta</span>
+              <strong  className="strong-tipo">Professor</strong>
+            </div>
+            <div className="prof-info-extra">
+              <span>Status</span>
+              <strong className="status-ativo">Ativo</strong>
+            </div>
+            <div className="prof-info-extra">
+              <span>Observações enviadas</span>
+              <strong className="strong-tipo">{totalObservacoes}</strong>
+            </div>
           </div>
           <div className="form-section">
             <div className="input-group">
@@ -166,6 +210,11 @@ export default function PerfilProfessor() {
       {popupSucesso && (
         <div className="toast-sucesso">
           Senha atualizada com sucesso!
+        </div>
+      )}
+      {popupErro && (
+        <div className="toast-erro">
+          {popupErro}
         </div>
       )}
     </div>
