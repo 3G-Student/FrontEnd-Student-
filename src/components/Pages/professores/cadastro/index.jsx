@@ -38,7 +38,7 @@ export default function Cadastro() {
       const usuarioCriado = await usuarioResponse.json();
       const usuarioId = usuarioCriado.idUsuario;
 
-      const alunoResponse = await fetch(`${backendURL}/api/aluno/cadastrar`, {
+      const alunoResponse = await fetch(`${backendURL}/api/Aluno/cadastrar`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -13,9 +13,9 @@ export default function PerfilProfessor() {
   const [email, setEmail] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [totalObservacoes, setTotalObservacoes] = useState(0);
+  const [alunosRecuperacao, setAlunosRecuperacao] = useState(0);
 
-  // const backendURL = import.meta.env.VITE_BACKEND_URL;
-  const backendURL = "http://localhost:8080"
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   // regex validação senha
   const validarSenha = (senha) => {
     const regex =
@@ -130,6 +130,34 @@ export default function PerfilProfessor() {
   
   }, []);
 
+  useEffect(() => {
+
+    const idProfessor = localStorage.getItem("idProfessor");
+    const token = localStorage.getItem("token");
+  
+    if (!idProfessor) return;
+  
+    fetch(`${backendURL}/api/Professor/buscarAlunosDeRecuperacaoPorIdProfessor/${idProfessor}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar alunos em recuperação");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setAlunosRecuperacao(Array.isArray(data) ? data.length : 0);
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
+  
+  }, []);
+
   return (
     <div className="perfil-page">
 
@@ -167,42 +195,46 @@ export default function PerfilProfessor() {
         </div>
 
         <div className="perfil-card">
-          <div className="perfil-info-card">''
+          <div className="perfil-left">
             <div className="avatar-professor">
               {nome ? nome.charAt(0).toUpperCase() : "P"}
             </div>
             <h3 className="prof-nome">{nome}</h3>
             <p className="prof-email">{email}</p>
-            <div className="prof-info-extra">
-              <span>Tipo de conta</span>
-              <strong  className="strong-tipo">Professor</strong>
-            </div>
-            <div className="prof-info-extra">
-              <span>Status</span>
-              <strong className="status-ativo">Ativo</strong>
-            </div>
-            <div className="prof-info-extra">
-              <span>Observações enviadas</span>
-              <strong className="strong-tipo">{totalObservacoes}</strong>
+            <div className="perfil-stats-left">
+              <div className="prof-info-extra">
+                <span>Tipo de conta</span>
+                <strong className="strong-tipo">Professor</strong>
+              </div>
+              <div className="prof-info-extra">
+                <span>Status</span>
+                <strong className="status-ativo">Ativo</strong>
+              </div>
+              <div className="prof-info-extra">
+                <span>Observações</span>
+                <strong className="strong-tipo-observacao">{totalObservacoes}</strong>
+              </div>
+              <div className="prof-info-extra">
+                <span>Recuperação</span>
+                <strong className="recuperacao">{alunosRecuperacao}</strong>
+              </div>
             </div>
           </div>
-          <div className="form-section">
+          <div className="perfil-right">
             <div className="input-group">
               <label>Nome</label>
               <input type="text" value={nome} readOnly />
             </div>
-
             <div className="input-group">
               <label>Email</label>
               <input type="email" value={email} readOnly />
             </div>
-
             <div className="input-group">
               <label>Nova senha</label>
-              <input type="password" value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)}placeholder="Digite a nova senha"/>
+              <input type="password" value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)} placeholder="Digite a nova senha"/>
             </div>
             <button className="atualizar-senha" onClick={atualizarSenha}>
-              Atualizar Senha
+              Atualizar senha
             </button>
           </div>
         </div>

@@ -4,7 +4,8 @@ import "./login.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080"
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
