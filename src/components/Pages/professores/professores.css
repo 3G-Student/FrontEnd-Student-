@@ -457,7 +457,7 @@ html, body, #root {
   text-align: center;
 }
 
-.status.aprovado { background: #d4edda; color: #155724; width: 200px; }
+.status.aprovado { background: #d4edda; color: #155724; width: 150px; }
 .status.recuperação { background: #fff3cd; color: #856404; }
 .status.reprovado { background: #f8d7da; color: #721c24; }
 
@@ -600,27 +600,39 @@ color: #A59FF3;
 
 /* NOVO */
 .status.pendente {
-  background: #e2e3e5;
+  background: #f4f6ff;
   color: #41464b;
-  width: 200px;
+  width: 150px;
 }
 
 .status.aprovado {
   background: #d4edda;
   color: #155724;
-  width: 200px;
+  width: 150px;
 }
 
 .status.recuperação {
   background: #fff3cd;
   color: #856404;
+  width: 150px;
 }
 
 .status.reprovado {
   background: #f8d7da;
   color: #721c24;
+  width: 150px;
 }
-
+.bolinha{
+  width:40px;
+  height:35px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:600;
+  font-size:16px;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
