@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import "./professores.css";
-import Logo from "../../../assets/logo.svg";
+import Logo from "../../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
+import SideBar from "../../components/SideBar";
 
 export default function DashboardProfessor() {
   const backendURL = import.meta.env.VITE_BACKEND_URL; 
@@ -114,7 +115,6 @@ export default function DashboardProfessor() {
         setObservacao("");
         setToastObs(true);
   
-        // Atualiza observações
         return fetch(
           `${backendURL}/api/Observacao/buscarObservacoesPorIdAluno/${alunoSelecionado.idAluno}`,
           {
@@ -148,7 +148,6 @@ export default function DashboardProfessor() {
       })
       .then((data) => {
   
-        // procura a disciplina do professor logado
         const relacao = data.find(
           (pd) => pd.professorId === professorId
         );
@@ -248,14 +247,8 @@ export default function DashboardProfessor() {
   };
   return (
     <div className="layout">
-      <aside className="sidebar">
-        <div
-          className="sidebar-perfil"
-          onClick={() => navigate("/perfilProfessor")}
-        >
-          <div className="avatar-sidebar">J</div>
-        </div>
-      </aside>
+
+      <SideBar/>
 
       <main className="main">
         <div className="breadcrumb">

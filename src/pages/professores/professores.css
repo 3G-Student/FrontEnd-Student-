@@ -21,22 +21,7 @@ html, body, #root {
   gap: 25px; 
   padding: 20px;
 }
-
-
-/* SIDEBAR */
-.sidebar {
-  background: #695CAC;
-  border-radius: 35px;
-  height: 98%;
-  margin-top: 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 25px;
-  gap: 18px;
-}
   
-/* TÍTULO */
 .titulo {
   font-size: 38px;
   font-weight: 600;
@@ -46,7 +31,6 @@ html, body, #root {
 
 }
 
-/* CARDS */
 .card {
   background: #DCD9FF;
   border-radius: 30px;
@@ -54,7 +38,6 @@ html, body, #root {
   border: 2px #695CAC solid;
 }
 
-/* NOTAS */
 .notas {
   margin-bottom: 25px;
 }
@@ -91,7 +74,6 @@ html, body, #root {
   color: #695CAC;
 }
 
-/* PARTE DE BAIXO */
 .linha-inferior {
   display: grid;
   grid-template-columns: 2fr 1.3fr;
@@ -99,7 +81,6 @@ html, body, #root {
 }
 
 
-/* ENVIAR OBS */
 .enviar h2 {
   text-align: center;
   margin-bottom: 15px;
@@ -118,7 +99,6 @@ html, body, #root {
   margin-top: 10px;
 }
 
-/* OBS ENVIADAS */
 .enviadas {
   display: flex;
   flex-direction: column;
@@ -159,7 +139,6 @@ html, body, #root {
   margin: 6px 0;          
 }
 
-/* PAINEL ALUNOS */
 .alunos {
   padding: 25px 15px; 
   display: flex;
@@ -181,7 +160,6 @@ html, body, #root {
   color: #695CAC;
 }
 
-/* LISTA ALUNOS */
 .lista-alunos {
   overflow-y: auto;
 }
@@ -197,7 +175,6 @@ html, body, #root {
   border: 2px #695CAC solid;
 }
 
-/* Container que segura nome + matrícula */
 .infoAluno {
   display: flex;
   justify-content: space-between;
@@ -205,14 +182,12 @@ html, body, #root {
   width: 100%;
 }
 
-/* Nome */
 .nomeAluno {
   font-weight: 600;
   font-size: 16px;
   color: #2E2948;
 }
 
-/* Bloco da matrícula */
 .matriculaBox {
   display: flex;
   flex-direction: column;
@@ -254,7 +229,6 @@ html, body, #root {
   color: #555;
 }
 
-/* SCROLL */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -298,7 +272,7 @@ html, body, #root {
   cursor: not-allowed;
   box-shadow: none;
 }
-/* Card individual da mensagem */
+
 .mensagem {
   background: white;
   border-radius: 18px;
@@ -310,14 +284,12 @@ html, body, #root {
   gap: 12px;
 }
 
-/* Cabeçalho */
 .msg-header {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-/* Bolinha */
 .msg-avatar {
   width: 36px;
   height: 36px;
@@ -326,7 +298,6 @@ html, body, #root {
   border: 2px solid #695CAC;
 }
 
-/* Nome + subtítulo */
 .msg-user {
   display: flex;
   flex-direction: column;
@@ -343,7 +314,6 @@ html, body, #root {
   color: #A59FF3;
 }
 
-/* Texto da mensagem */
 .msg-texto {
   font-size: 14px;
   color: #2E2948;
@@ -359,7 +329,7 @@ html, body, #root {
   text-align: left;
   margin-bottom: 12px;
 }
-/* FUNDO ESCURO */
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -370,7 +340,6 @@ html, body, #root {
   z-index: 999;
 }
 
-/* MODAL */
 .modal {
   background: white;
   padding: 30px;
@@ -392,7 +361,6 @@ html, body, #root {
   margin-bottom: 20px;
 }
 
-/* BOTÕES */
 .modal-botoes {
   display: flex;
   justify-content: space-between;
@@ -419,7 +387,6 @@ html, body, #root {
   cursor: pointer;
 }
 
-/* TOAST */
 .toast-sucesso {
   position: fixed;
   top: 20px;
@@ -434,7 +401,6 @@ html, body, #root {
   animation: slideIn 0.3s ease;
 }
 
-/* ANIMAÇÕES */
 @keyframes slideIn {
   from { transform: translateX(120%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
@@ -491,68 +457,7 @@ align-items: flex-end;
 .registrar-notas {
 margin-left: 17%;
 }
-.sidebar-perfil {
-display: flex;
-flex-direction: column;
-align-items: center;
-text-align: center;
-}
 
-.avatar-sidebar {
-width: 48px;
-height: 48px;
-border-radius: 50%;
-background: #7ED957;
-color: #2E2948;
-font-weight: 700;
-font-size: 20px;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-.sidebar-nome {
-color: white;
-font-size: 13px;
-margin-top: 8px;
-font-weight: 500;
-}
-
-.sidebar-tipo {
-color: #DCD9FF;
-font-size: 11px;
-}
-.sidebar-perfil {
-display: flex;
-flex-direction: column;
-align-items: center;
-text-align: center;
-}
-
-.avatar-sidebar {
-width: 52px;
-height: 52px;
-border-radius: 50%;
-background: #7ED957;
-color: #2E2948;
-font-weight: 700;
-font-size: 22px;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-.sidebar-nome {
-color: white;
-font-size: 14px;
-margin-top: 8px;
-font-weight: 600;
-}
-
-.sidebar-tipo {
-color: #DCD9FF;
-font-size: 12px;
-}
 .breadcrumb {
 display: flex;
 flex-direction: column;

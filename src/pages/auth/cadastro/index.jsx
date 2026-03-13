@@ -1,6 +1,8 @@
 import { useState } from "react";
-import "./cadastro.css";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react"; 
+import Logo from "../../../assets/logo.svg";
+import "./cadastro.css";
 
 export default function Cadastro() {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ export default function Cadastro() {
   const [matricula, setMatricula] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [verSenha, setVerSenha] = useState(false);
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState(null);
 
@@ -25,28 +28,18 @@ export default function Cadastro() {
 
       const usuarioResponse = await fetch(`${backendURL}/api/Usuario/cadastrar`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          senha,
-          tipoId: 1
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, senha, tipoId: 1 }),
       });
 
-      if (!usuarioResponse.ok) {
-        throw new Error("Erro ao criar usuário");
-      }
+      if (!usuarioResponse.ok) throw new Error("Erro ao criar usuário");
 
       const usuarioCriado = await usuarioResponse.json();
       const usuarioId = usuarioCriado.idUsuario;
 
-      const alunoResponse = await fetch(`${backendURL}/api/aluno/cadastrar`, {
+      const alunoResponse = await fetch(`${backendURL}/api/Aluno/cadastrar`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nome,
           matricula,
@@ -55,11 +48,9 @@ export default function Cadastro() {
         }),
       });
 
-      if (!alunoResponse.ok) {
-        throw new Error("Erro ao criar aluno");
-      }
+      if (!alunoResponse.ok) throw new Error("Erro ao criar aluno");
 
-      navigate("/professores");
+      navigate("/login"); 
 
     } catch (err) {
       setErro(err.message);
@@ -71,17 +62,15 @@ export default function Cadastro() {
   return (
     <div className="cadastro-page">
       <div className="cadastro-card">
-
         <div className="cadastro-left">
-          <h1 className="logo">STUDENT<span>+</span></h1>
+          <img className="logo" src={Logo} alt="Student+" />
           <p>
-            Seja bem-vindo ao Student+! Crie <br />
-            sua conta para começar a usar.
+            Seja bem-vindo!<br />
+            Crie sua conta para começar a utilizar.
           </p>
         </div>
 
         <div className="cadastro-right">
-
           <input
             type="text"
             placeholder="Nome"
@@ -103,14 +92,23 @@ export default function Cadastro() {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <input
-            type="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-          />
+          <div className="password-wrapper">
+            <input
+              type={verSenha ? "text" : "password"}
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+            />
+            <button 
+              type="button" 
+              className="password-toggle"
+              onClick={() => setVerSenha(!verSenha)}
+            >
+              {verSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
 
-          {erro && <p style={{ color: "red" }}>{erro}</p>}
+          {erro && <p className="error-message">{erro}</p>}
 
           <button
             className="btn-cadastrar"
@@ -120,15 +118,13 @@ export default function Cadastro() {
             {loading ? "Cadastrando..." : "Cadastrar"}
           </button>
 
-          <small>
-            Já tem uma conta?{" "}
-            <a onClick={() => navigate("/login")}>
+          <small className="footer-text">
+            Já tem uma conta?<br />
+            <span className="link-login" onClick={() => navigate("/login")}>
               Clique aqui para fazer login
-            </a>
+            </span>
           </small>
-
         </div>
-
       </div>
     </div>
   );
