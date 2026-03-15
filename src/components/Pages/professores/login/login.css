@@ -1,0 +1,98 @@
+body, html {
+    background-color: #D2CBF8;
+}
+.cadastro-page {
+  height: 100vh;
+  background: #E9E6FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+}
+
+/* CARD CENTRAL */
+.cadastro-card {
+  width: 900px;
+  height: 420px;
+  background: #5E57A5;
+  border-radius: 35px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  display: flex;
+  padding: 50px;
+}
+
+/* LADO ESQUERDO */
+.cadastro-left {
+  flex: 1;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 11%;
+}
+
+.logo {
+  font-size: 38px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.logo span {
+  color: #FFD84D;
+}
+
+.cadastro-left p {
+  font-size: 14px;
+  color: #E0DEFF;
+  line-height: 1.5;
+}
+
+/* LADO DIREITO */
+.cadastro-right {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* INPUTS */
+.cadastro-right input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #FFFFFF;
+  color: #5E57A5;
+  font-size: 14px;
+}
+
+/* BOTÃO */
+.btn-cadastrar {
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #FFC933;
+  color: #4C4795;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-cadastrar:hover {
+  transform: translateY(-2px);
+}
+
+/* LINK LOGIN */
+.cadastro-right small {
+  text-align: center;
+  font-size: 12px;
+  color: #D6D4FF;
+}
+
+.cadastro-right a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}

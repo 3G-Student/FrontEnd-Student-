@@ -6,7 +6,8 @@ import "./cadastro.css";
 
 export default function Cadastro() {
   const navigate = useNavigate();
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080"
 
   const [nome, setNome] = useState("");
   const [matricula, setMatricula] = useState("");
@@ -21,17 +22,14 @@ export default function Cadastro() {
       setErro("Preencha todos os campos");
       return;
     }
-
     try {
       setLoading(true);
       setErro(null);
-
       const usuarioResponse = await fetch(`${backendURL}/api/Usuario/cadastrar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, senha, tipoId: 1 }),
       });
-
       if (!usuarioResponse.ok) throw new Error("Erro ao criar usuário");
 
       const usuarioCriado = await usuarioResponse.json();
@@ -47,7 +45,6 @@ export default function Cadastro() {
           usuarioId: usuarioId
         }),
       });
-
       if (!alunoResponse.ok) throw new Error("Erro ao criar aluno");
 
       navigate("/login"); 
@@ -69,7 +66,6 @@ export default function Cadastro() {
             Crie sua conta para começar a utilizar.
           </p>
         </div>
-
         <div className="cadastro-right">
           <input
             type="text"

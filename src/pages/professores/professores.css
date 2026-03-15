@@ -6,8 +6,8 @@
 }
 
 html, body {
-  height: 95%;
-  overflow: hidden;
+  height: 100%;
+  overflow-x: hidden;
   background: #FBFAFF;
 }
 html, body, #root {
@@ -17,9 +17,23 @@ html, body, #root {
 
 .layout {
   display: grid;
-  grid-template-columns: 120px 1fr 444px;
-  gap: 25px; 
-  padding: 20px;
+  grid-template-columns: 100px 1fr 380px;
+  gap: 20px;
+  padding: 5px;
+  width: 100%;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: #695CAC;
+  border-radius: 35px;
+  height: 98%;
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+  gap: 18px;
 }
   
 .titulo {
@@ -67,7 +81,8 @@ html, body, #root {
 
 .notas-inputs input {
   padding: 10px;
-  width: 140px;
+  width: 100%;
+  max-width: 140px;  
   border-radius: 12px;
   border: 2px solid #695CAC;
   background: white;
@@ -75,9 +90,10 @@ html, body, #root {
 }
 
 .linha-inferior {
-  display: grid;
-  grid-template-columns: 2fr 1.3fr;
-  gap: 25px;
+  display:grid;
+  grid-template-columns:2fr 1.3fr;
+  gap:25px;
+  align-items:start;
 }
 
 
@@ -89,7 +105,8 @@ html, body, #root {
 
 .enviar textarea {
   width: 100%;
-  height: 200px;
+  min-height: 150px;
+  height: auto;  
   border-radius: 20px;
   border: 2px solid #695CAC;
   padding: 15px;
@@ -99,10 +116,14 @@ html, body, #root {
   margin-top: 10px;
 }
 
-.enviadas {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+.enviadas{
+  display:flex;
+  flex-direction:column;
+  height:320px;
+  background:#F8F7FF;
+  border-radius:30px;
+  border:2px solid #695CAC;
+  padding:22px;
 }
 
 .enviadas h2 {
@@ -110,13 +131,12 @@ html, body, #root {
   color: #695CAC;
 }
 
-.lista-mensagens {
-  overflow-y: auto;
-  margin-top: 15px;
-  padding-right: 6px;
-  color: black;
+.lista-mensagens{
+  overflow-y:auto;
+  margin-top:15px;
+  padding-right:6px;
+  flex:1;
 }
-
 .mensagem {
   background: white;
   border-radius: 20px;
@@ -143,7 +163,7 @@ html, body, #root {
   padding: 25px 15px; 
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 98.7vh;
 }
 
 .student {
@@ -166,7 +186,7 @@ html, body, #root {
 .aluno {
   background: #DCD9FF;
   padding: 16px 18px;
-  width: 400px;
+  width: 100%;
   border-radius: 18px;
   display: flex;
   align-items: center;
@@ -250,7 +270,6 @@ html, body, #root {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -418,7 +437,7 @@ html, body, #root {
   text-align: center;
 }
 
-.status.aprovado { background: #d4edda; color: #155724; width: 200px; }
+.status.aprovado { background: #d4edda; color: #155724; width: 150px; }
 .status.recuperação { background: #fff3cd; color: #856404; }
 .status.reprovado { background: #f8d7da; color: #721c24; }
 
@@ -455,9 +474,71 @@ align-items: flex-end;
 }
 
 .registrar-notas {
-margin-left: 17%;
+  margin-left: auto;
 }
 
+.sidebar-perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatar-sidebar {
+width: 48px;
+height: 48px;
+border-radius: 50%;
+background: #A59FF3;
+color: #2E2948;
+font-weight: 700;
+font-size: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.sidebar-nome {
+color: white;
+font-size: 13px;
+margin-top: 8px;
+font-weight: 500;
+}
+
+.sidebar-tipo {
+color: #DCD9FF;
+font-size: 11px;
+}
+.sidebar-perfil {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+}
+
+.avatar-sidebar {
+width: 52px;
+height: 52px;
+border-radius: 50%;
+background: #A59FF3;
+color: #2E2948;
+font-weight: 700;
+font-size: 22px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.sidebar-nome {
+color: white;
+font-size: 14px;
+margin-top: 8px;
+font-weight: 600;
+}
+
+.sidebar-tipo {
+color: #DCD9FF;
+font-size: 12px;
+}
 .breadcrumb {
 display: flex;
 flex-direction: column;
@@ -490,7 +571,49 @@ color: #A59FF3;
   z-index: 9999;
   animation: fadeIn 0.3s ease;
 }
+.status {
+  margin-top: 10px;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-align: center;
+}
 
+/* NOVO */
+.status.pendente {
+  background: #f4f6ff;
+  color: #41464b;
+  width: 150px;
+}
+
+.status.aprovado {
+  background: #d4edda;
+  color: #155724;
+  width: 150px;
+}
+
+.status.recuperação {
+  background: #fff3cd;
+  color: #856404;
+  width: 150px;
+}
+
+.status.reprovado {
+  background: #f8d7da;
+  color: #721c24;
+  width: 150px;
+}
+.bolinha{
+  width:40px;
+  height:35px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:600;
+  font-size:16px;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -500,4 +623,151 @@ color: #A59FF3;
     opacity: 1;
     transform: translateY(0);
   }
+}
+/* TABLET */
+@media (max-width: 1200px) {
+
+  .layout {
+    grid-template-columns: 90px 1fr 300px;
+  }
+
+  .titulo {
+    font-size: 30px;
+  }
+
+  .linha-inferior {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+
+
+
+/* CELULAR */
+@media (max-width: 900px) {
+
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-radius: 20px;
+    margin-top: 0;
+  }
+
+  .sidebar-perfil {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .main {
+    order: 2;
+  }
+
+  .alunos {
+    order: 3;
+    height: auto;
+  }
+
+}
+@media (max-width: 900px) {
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    justify-content: center;
+    height: auto;
+    margin-top: 0;
+    border-radius: 20px;
+  }
+
+  .main {
+    order: 2;
+  }
+
+  .alunos {
+    order: 3;
+    height: auto;
+  }
+  .sidebar {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    gap: 10px;
+  }
+
+}
+@media (max-width: 700px) {
+
+  .notas-inputs {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+}
+@media (max-width: 700px) {
+
+  .registrar-notas {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .registrar-notass {
+    width: 100%;
+    margin-left: 0;
+  }
+
+}
+@media (max-width:900px){
+
+  .lista-mensagens{
+    max-height:250px;
+  }
+
+}
+.linha-inferior {
+  display:grid;
+  grid-template-columns:2fr 1.3fr;
+  gap:25px;
+  align-items:start;
+}
+.perfil-card-expandido{
+  width:100%;
+  max-width:700px;
+  margin:auto;
+}
+
+.perfil-inputs{
+  width:100%;
+  margin-top:20px;
+}
+
+.perfil-divider{
+  width:100%;
+  height:1px;
+  background:#e5e7eb;
+  margin:20px 0;
+}
+
+.perfil-stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.recuperacao{
+  color:#f59e0b;
+  font-weight:600;
 }

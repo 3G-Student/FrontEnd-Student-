@@ -10,7 +10,8 @@ import Notification from "../../components/notification/Notification";
 
 export default function DashboardAdmin() {
   const [teachers, setTeachers] = useState([]);
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http//localhost:8080:"
   const token = localStorage.getItem("token");
 
   const [notification, setNotification] = useState({ message: "", type: "" });
