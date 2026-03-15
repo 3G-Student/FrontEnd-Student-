@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Fredoka:wght@700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #FBFAFF;
+  font-family: 'Geist', sans-serif;
+  color: #2E2948;
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.topnav {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.topnav-left { display: flex; flex-direction: column; gap: 4px; }
+.topnav-home { font-weight: 500; font-size: 15px; }
+.topnav-breadcrumb { font-weight: 400; font-size: 13px; color: #B6B1D2; }
+.logo-student { height: 20px; }
+
+.student-name { font-weight: 500; font-size: 32px; margin: 12px 0 28px; }
+
+.body-columns {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.page-heading{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 140px;
+}
+
+.boletim-card {
+  flex: 1;
+  background-color: #CFC8F6;
+  border: 1.5px solid #695CAC;
+  border-radius: 28px;
+  padding: 28px 32px 36px;
+}
+
+.boletim-title {
+  font-weight: 500;
+  font-size: 24px;
+  color: #695CAC;
+  margin-bottom: 24px;
+}
+
+.grades-card {
+  background-color: #F4F3FB;
+  border: 1.5px solid #695CAC;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.grades-table th {
+  font-weight: 600;
+  font-size: 14px;
+  color: #B6B1D2;
+  padding: 20px 24px;
+  text-align: left;
+  border-bottom: 1px solid #E5E3F5;
+}
+
+.grades-table td {
+  padding: 20px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2E2948;
+  border-bottom: 1px solid #E5E3F5;
+}
+
+.grades-table th:not(:first-child), 
+.grades-table td:not(:first-child) {
+  text-align: center;
+}
+
+.final-grade {
+  color: #695CAC !important;
+  font-weight: 700 !important;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 90px;
+}
+
+.status-aprovado {
+  background-color: #D1E7DD;
+  color: #0F5132;
+}
+
+.status-reprovado {
+  background-color: #F8D7DA;
+  color: #842029;
+}
+
+.status-pendente {
+  background-color: #FFF3CD;
+  color: #664D03;
+}
+
+.notifications-col { width: 360px; }
+.notifications-title { font-weight: 500; font-size: 24px; color: #695CAC; margin-bottom: 20px; }
+
+.notif-card {
+  border: 1.5px solid #695CAC;
+  border-radius: 20px;
+  padding: 18px;
+  background-color: #FFFFFF;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.notif-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #FF8C32;
+  border: 2px solid #695CAC;
+}
+
+.notif-name { font-weight: 600; font-size: 15px; }
+.notif-subtitle { font-size: 12px; color: #B6B1D2; margin: 2px 0 8px; }
+.notif-text { font-size: 14px; line-height: 1.4; color: #4A4564; }
+.no-notif { color: #B6B1D2; font-style: italic; }

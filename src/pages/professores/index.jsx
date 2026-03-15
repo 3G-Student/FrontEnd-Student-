@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import "./professores.css";
-import Logo from "../../../assets/logo.svg";
+import Logo from "../../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
+import SideBar from "../../components/SideBar";
 
 export default function DashboardProfessor() {
 
@@ -143,6 +144,63 @@ export default function DashboardProfessor() {
 
   useEffect(() => {
     const professorId = Number(localStorage.getItem("idProfessor"));
+
+    fetch(`${backendURL}/api/professorDisciplina/listar`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Erro ao buscar disciplinas do professor");
+        return response.json();
+      })
+      .then((data) => {
+  
+        const relacao = data.find(
+          (pd) => pd.professorId === professorId
+        );
+  
+        if (relacao) {
+          setDisciplinaId(relacao.disciplinaId);
+        } else {
+          console.error("Professor não possui disciplina vinculada");
+        }
+      })
+      .catch((error) => console.error("Erro:", error));
+  }, []);
+  const registrarNotas = () => {
+
+    if (!disciplinaId || !alunoSelecionado) {
+      alert("Disciplina ou aluno não encontrado");
+      return;
+    }
+  
+    fetch(`${backendURL}/api/media/cadastrar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        disciplinaId: disciplinaId,
+        alunoId: alunoSelecionado.idAluno,
+        nota1: nota1,
+        nota2: nota2,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Erro ao registrar notas");
+        return response.text();
+      })
+      .then(() => {
+        setMostrarSucesso(true);
+        setTimeout(() => setMostrarSucesso(false), 3000);
+      })
+      .catch((error) => console.error("Erro:", error));
+  };
+  useEffect(() => {
+    const professorId = Number(localStorage.getItem("idProfessor"));
     fetch(`${backendURL}/api/professorDisciplina/listar`, {
       method: "GET",
       headers: {
@@ -244,12 +302,7 @@ export default function DashboardProfessor() {
   };
   return (
     <div className="layout">
-      <aside className="sidebar">
-        <div className="sidebar-perfil" onClick={() => navigate("/perfilProfessor")}>
-          <div className="avatar-sidebar">J</div>
-        </div>
-      </aside>
-
+      <SideBar/>
       <main className="main">
         <div className="breadcrumb">
           <span className="home">Home</span>
