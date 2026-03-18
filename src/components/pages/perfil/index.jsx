@@ -1,91 +1,254 @@
-import { useEffect, useState } from "react";
-import Sidebar from "../../../components/SideBar";
 import "./perfil.css";
+import { useNavigate } from "react-router-dom";
+import { FaUpload, FaArrowLeft } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
-export default function Perfil() {
-  const [user, setUser] = useState(null);
-  const [senha, setSenha] = useState("");
-  
-  const idUsuario = localStorage.getItem("idUsuario");
-  const idTipoUsuario = localStorage.getItem("idTipoUsuario");
-  const token = localStorage.getItem("token");
-  // const backendURL = import.meta.env.VITE_BACKEND_URL;
-  const backendURL = "http://localhost:8080"
-  useEffect(() => {
-    if (!idUsuario) return;
+export default function PerfilProfessor() {
 
-    fetch(`${backendURL}/api/Usuario/buscarPorId/${idUsuario}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then(res => res.json())
-    .then(data => {
-      setUser(data);
-      if(data.nome) localStorage.setItem("nomeUsuario", data.nome);
-    })
-    .catch(err => console.error("Erro ao carregar perfil:", err));
-  }, [idUsuario, token, backendURL]);
+  const navigate = useNavigate();
 
-  const getTipoLabel = () => {
-    const tipo = Number(idTipoUsuario);
-    if (tipo === 1) return "Perfil do Aluno";
-    if (tipo === 2) return "Perfil do Professor";
-    return "Perfil Administrativo";
+  const [popupSucesso, setPopupSucesso] = useState(false);
+  const [popupErro, setPopupErro] = useState("");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
+  const [totalObservacoes, setTotalObservacoes] = useState(0);
+  const [alunosRecuperacao, setAlunosRecuperacao] = useState(0);
+
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  // regex validação senha
+  const validarSenha = (senha) => {
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/;
+    return regex.test(senha);
   };
 
-  if (!user) return <div className="loading">Carregando...</div>;
+  // buscar perfil
+  useEffect(() => {
+    const usuarioId = localStorage.getItem("idUsuario");
+    const token = localStorage.getItem("token");
+  
+    if (!usuarioId) {
+      console.error("ID do usuário não encontrado");
+      return;
+    }
+    fetch(`${backendURL}/api/Usuario/perfil/${usuarioId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Erro ao buscar perfil");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setNome(data.nome);
+      setEmail(data.email);
+    })
+    .catch((error) => {
+      console.error("Erro:", error);
+    });
+  }, []);
+
+  // atualizar senha
+  const atualizarSenha = async () => {
+
+    const idUsuario = localStorage.getItem("idUsuario");
+    const token = localStorage.getItem("token");
+
+    if (!idUsuario) {
+      setPopupErro("Usuário não encontrado");
+      setTimeout(() => setPopupErro(""), 3000);
+      return;
+    }
+
+    if (!validarSenha(novaSenha)) {
+      setPopupErro(
+        "A senha precisa ter 8 caracteres, com maiúscula, minúscula, número e caractere especial."
+      );
+      setTimeout(() => setPopupErro(""), 4000);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${backendURL}/api/Usuario/atualizarSenha/${idUsuario}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            novaSenha: novaSenha,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Erro ao atualizar senha");
+      }
+      setPopupSucesso(true);
+      setTimeout(() => setPopupSucesso(false), 3000);
+      setNovaSenha("");
+    } catch (error) {
+      console.error(error);
+      setPopupErro("Usuário não encontrado");
+      setTimeout(() => setPopupErro(""), 3000);
+      return;     
+    }
+  };
+
+  useEffect(() => {
+
+    const idProfessor = localStorage.getItem("idProfessor");
+    const token = localStorage.getItem("token");
+  
+    if (!idProfessor) return;
+  
+    fetch(`${backendURL}/api/Observacao/buscarObservacoesPorIdProfessor/${idProfessor}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar observações");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setTotalObservacoes(data.length);
+  
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar observações:", error);
+      });
+  
+  }, []);
+
+  useEffect(() => {
+
+    const idProfessor = localStorage.getItem("idProfessor");
+    const token = localStorage.getItem("token");
+  
+    if (!idProfessor) return;
+  
+    fetch(`${backendURL}/api/Professor/buscarAlunosDeRecuperacaoPorIdProfessor/${idProfessor}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar alunos em recuperação");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setAlunosRecuperacao(Array.isArray(data) ? data.length : 0);
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
+  
+  }, []);
 
   return (
-    <div className="app-root">
-      <Sidebar />
-      
-      <main className="main-content">
-        <div className="profile-container">
-          <header className="profile-header">
-            <h1>{getTipoLabel()}</h1>
-            <p>Informações da conta</p>
-          </header>
+    <div className="perfil-page">
 
-          <div className="profile-card">
-            <div className="profile-avatar-large">
-              {user.nome?.charAt(0).toUpperCase() || localStorage.getItem("email")?.charAt(0).toUpperCase()}
-            </div>
+      <aside className="perfil-sidebar">
+        <div className="sidebar-perfil" onClick={() => navigate("/professores")}>
+          <div className="avatar-sidebar"><FaArrowLeft /></div>
+        </div>
+      </aside>
 
-            <div className="profile-form">
-              <div className="form-group">
-                <label>Nome</label>
-                <input value={user.nome || ""} readOnly className="input-disabled" />
-              </div>
+      <div className="perfil-content">
+        <div className="mobile-back-button" onClick={() => navigate("/professores")}>
+          <FaArrowLeft />
+        </div>
 
-              <div className="form-group">
-                <label>E-mail</label>
-                <input value={user.email || ""} readOnly className="input-disabled" />
-              </div>
+        <header className="perfil-header">
 
-              {Number(idTipoUsuario) === 1 && (
-                <div className="form-group">
-                  <label>Matrícula</label>
-                  <input value={localStorage.getItem("idAluno") || "---"} readOnly className="input-disabled" />
-                </div>
-              )}
+          <div className="header-mobile">
+            <FaArrowLeft className="mobile-back" onClick={() => navigate("/professores")}/>
+          </div>
 
-              <hr />
-              <h3>Segurança</h3>
-              <div className="form-group">
-                <label>Nova Senha</label>
-                <input 
-                  type="password" 
-                  placeholder="Alterar senha" 
-                  value={senha} 
-                  onChange={(e) => setSenha(e.target.value)} 
-                />
-              </div>
-              <button className="btn-save" onClick={() => alert("Funcionalidade de senha em breve!")}>
-                Salvar Alterações
-              </button>
+          <div className="header-left">
+            <div>
+              <h2>Perfil</h2>
+              <span className="sub">Professor</span>
             </div>
           </div>
+
+          <span className="student-tag" onClick={() => navigate("/professores")}>
+            STUDENT <span>+</span>
+          </span>
+
+        </header>
+        <div className="mobile-back-button" onClick={() => navigate("/professores")}>
+          <FaArrowLeft />
         </div>
-      </main>
+
+        <div className="perfil-card">
+          <div className="perfil-left">
+            <div className="avatar-professor">
+              {nome ? nome.charAt(0).toUpperCase() : "P"}
+            </div>
+            <h3 className="prof-nome">{nome}</h3>
+            <p className="prof-email">{email}</p>
+            <div className="perfil-stats-left">
+              <div className="prof-info-extra">
+                <span>Tipo de conta</span>
+                <strong className="strong-tipo">Professor</strong>
+              </div>
+              <div className="prof-info-extra">
+                <span>Status</span>
+                <strong className="status-ativo">Ativo</strong>
+              </div>
+              <div className="prof-info-extra">
+                <span>Observações</span>
+                <strong className="strong-tipo-observacao">{totalObservacoes}</strong>
+              </div>
+              <div className="prof-info-extra">
+                <span>Recuperação</span>
+                <strong className="recuperacao">{alunosRecuperacao}</strong>
+              </div>
+            </div>
+          </div>
+          <div className="perfil-right">
+            <div className="input-group">
+              <label>Nome</label>
+              <input type="text" value={nome} readOnly />
+            </div>
+            <div className="input-group">
+              <label>Email</label>
+              <input type="email" value={email} readOnly />
+            </div>
+            <div className="input-group">
+              <label>Nova senha</label>
+              <input type="password" value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)} placeholder="Digite a nova senha"/>
+            </div>
+            <button className="atualizar-senha" onClick={atualizarSenha}>
+              Atualizar senha
+            </button>
+          </div>
+        </div>
+      </div>
+      {popupSucesso && (
+        <div className="toast-sucesso">
+          Senha atualizada com sucesso!
+        </div>
+      )}
+      {popupErro && (
+        <div className="toast-erro">
+          {popupErro}
+        </div>
+      )}
     </div>
   );
 }

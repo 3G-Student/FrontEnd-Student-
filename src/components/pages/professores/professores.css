@@ -102,7 +102,12 @@
   .enviadas {
     display: flex;
     flex-direction: column;
-    min-height: 0;
+    height: 368px; /* TRAVA O TAMANHO */
+    background: #F8F7FF;
+    border-radius: 30px;
+    border: 2px solid #695CAC;
+    padding: 22px;
+    overflow: hidden; /* IMPORTANTE */
   }
   
   .enviadas h2 {
@@ -111,10 +116,10 @@
   }
   
   .lista-mensagens {
-    overflow-y: auto;
+    flex: 1;              /* ocupa espaço disponível */
+    overflow-y: auto;     /* SCROLL AQUI */
     margin-top: 15px;
     padding-right: 6px;
-    color: black;
   }
   
   .mensagem {
@@ -215,9 +220,19 @@
   
   .bolinha {
     width: 38px;
-    height: 33px;
+    height: 33px; /* deixa igual pra virar círculo perfeito */
     border-radius: 50%;
-    border: 2px #695CAC solid;
+    border: 2px solid #695CAC;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+  
+    line-height: 1; /* evita desalinhamento vertical */
   }
   
   .nomeAluno {

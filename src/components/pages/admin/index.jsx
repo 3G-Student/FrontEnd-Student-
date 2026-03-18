@@ -27,16 +27,39 @@ export default function DashboardAdmin() {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())
-    .then(data => setTeachers(data))
-    .catch(err => showNotification("Erro ao carregar professores", "error"));
+    .then(data => {
+      const professoresFormatados = data.map(p => ({
+        id: p.idProfessor,
+        nome: p.nome,
+        ativo: p.ativo,
+        cor: gerarCor(p.nome)
+      }));
+  
+      setTeachers(professoresFormatados);
+    })
+    .catch(() => showNotification("Erro ao carregar professores", "error"));
   };
-
   useEffect(() => { carregarProfessores(); }, []);
 
   const handleRegister = async (newTeacher) => {
     carregarProfessores();
   };
-
+  const gerarCor = (nome) => {
+    const cores = [
+      "#38B6F5",
+      "#695CAC",
+      "#A59FF3",
+      "#5A54A3",
+      "#7B7794"
+    ];
+  
+    let hash = 0;
+    for (let i = 0; i < nome.length; i++) {
+      hash = nome.charCodeAt(i) + ((hash << 5) - hash);
+    }
+  
+    return cores[Math.abs(hash) % cores.length];
+  };
   const handleDelete = async (id) => {
     if(window.confirm("Deseja realmente excluir?")) {
         await fetch(`${backendURL}/api/Professor/deletar/${id}`, {

@@ -9,9 +9,10 @@ export default function DashboardProfessor() {
 
   const [alunos, setAlunos] = useState([]);
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);
-  const [nota1, setNota1] = useState(7.5);
-  const [nota2, setNota2] = useState(7.5);
+  const [nota1, setNota1] = useState("");
+  const [nota2, setNota2] = useState("");
   const [mostrarSucesso, setMostrarSucesso] = useState(false);
+  const [toastErro, setToastErro] = useState("");
   const [toastObs, setToastObs] = useState(false);
   const [pesquisa, setPesquisa] = useState("");
   const [observacao, setObservacao] = useState("");
@@ -23,11 +24,16 @@ export default function DashboardProfessor() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const media = ((nota1 + nota2) / 2).toFixed(1);
+  let media = "";
+  let status = "Pendente";
 
-  let status = "Aprovado";
-  if (media < 6) status = "Reprovado";
-  else if (media < 7) status = "Recuperação";
+  if (nota1 !== "" && nota2 !== "") {
+    media = ((Number(nota1) + Number(nota2)) / 2).toFixed(1);
+
+    if (media < 6) status = "Reprovado";
+    else if (media < 7) status = "Recuperação";
+    else status = "Aprovado";
+  }
 
   const alunosFiltrados = alunos.filter((aluno) => {
     const termo = pesquisa.toLowerCase();
@@ -37,7 +43,32 @@ export default function DashboardProfessor() {
     );
   });
 
-  // 🔹 Buscar alunos
+  const handleNota = (valor, setNota) => {
+    if (valor === "") {
+      setNota("");
+      return;
+    }
+
+    const numero = Number(valor);
+    if (numero < 0 || numero > 10) return;
+
+    setNota(numero);
+  };
+
+  const gerarCorAvatar = (nome) => {
+    const cores = [
+      "#6366F1","#8B5CF6","#EC4899","#F43F5E",
+      "#F59E0B","#10B981","#06B6D4","#3B82F6"
+    ];
+
+    let hash = 0;
+    for (let i = 0; i < nome.length; i++) {
+      hash = nome.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    return cores[Math.abs(hash % cores.length)];
+  };
+
   useEffect(() => {
     fetch(`${backendURL}/api/Aluno/listar`, {
       method: "GET",
@@ -64,11 +95,11 @@ export default function DashboardProfessor() {
       })
       .catch((error) => {
         console.error("ERRO COMPLETO:", error);
-        alert(error.message);
+        setToastErro(error.message);
+        setTimeout(() => setToastErro(""), 3000);
       });
   }, []);
 
-  // 🔹 Buscar observações
   useEffect(() => {
     if (!alunoSelecionado) return;
 
@@ -88,10 +119,12 @@ export default function DashboardProfessor() {
       .then((data) => {
         setObservacoes(data);
       })
-      .catch((error) => console.error("Erro:", error));
+      .catch(() => {
+        setToastErro("Erro ao buscar observações");
+        setTimeout(() => setToastErro(""), 3000);
+      });
   }, [alunoSelecionado]);
 
-  // 🔹 Enviar observação
   const enviarObservacao = () => {
     if (!observacao.trim() || !alunoSelecionado) return;
 
@@ -134,10 +167,12 @@ export default function DashboardProfessor() {
         setObservacoes(data);
         setTimeout(() => setToastObs(false), 3000);
       })
-      .catch((error) => console.error("Erro:", error));
+      .catch(() => {
+        setToastErro("Erro ao enviar observação");
+        setTimeout(() => setToastErro(""), 3000);
+      });
   };
 
-  // 🔹 Buscar disciplinas (CORRIGIDO - apenas 1 useEffect)
   useEffect(() => {
     const professorId = Number(localStorage.getItem("idProfessor"));
 
@@ -181,13 +216,22 @@ export default function DashboardProfessor() {
           setDisciplinaSelecionada(disciplinasComNome[0].disciplinaId);
         }
       })
-      .catch((error) => console.error("Erro:", error));
+      .catch(() => {
+        setToastErro("Erro ao buscar disciplinas");
+        setTimeout(() => setToastErro(""), 3000);
+      });
   }, []);
 
-  // 🔹 Cadastrar boletim (CORRIGIDO)
   const cadastrarBoletim = () => {
     if (!disciplinaSelecionada || !alunoSelecionado) {
-      alert("Disciplina ou aluno não encontrado");
+      setToastErro("Disciplina ou aluno não encontrado");
+      setTimeout(() => setToastErro(""), 3000);
+      return;
+    }
+
+    if (nota1 === "" || nota2 === "") {
+      setToastErro("Preencha as duas notas antes de enviar");
+      setTimeout(() => setToastErro(""), 3000);
       return;
     }
 
@@ -198,7 +242,7 @@ export default function DashboardProfessor() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        disciplinaId: disciplinaSelecionada, // ✅ corrigido
+        disciplinaId: disciplinaSelecionada,
         alunoId: alunoSelecionado.idAluno,
         nota1: nota1,
         nota2: nota2,
@@ -212,7 +256,10 @@ export default function DashboardProfessor() {
         setMostrarSucesso(true);
         setTimeout(() => setMostrarSucesso(false), 3000);
       })
-      .catch((error) => console.error("Erro:", error));
+      .catch(() => {
+        setToastErro("Erro ao cadastrar boletim");
+        setTimeout(() => setToastErro(""), 3000);
+      });
   };
 
   return (
@@ -241,7 +288,7 @@ export default function DashboardProfessor() {
               <input
                 type="number"
                 value={nota1}
-                onChange={(e) => setNota1(+e.target.value)}
+                onChange={(e) => handleNota(e.target.value, setNota1)}
               />
             </div>
 
@@ -250,7 +297,7 @@ export default function DashboardProfessor() {
               <input
                 type="number"
                 value={nota2}
-                onChange={(e) => setNota2(+e.target.value)}
+                onChange={(e) => handleNota(e.target.value, setNota2)}
               />
             </div>
 
@@ -334,11 +381,13 @@ export default function DashboardProfessor() {
               className="aluno"
               onClick={() => setAlunoSelecionado(a)}
             >
-              <img
+              <div
                 className="bolinha"
-                src={`https://picsum.photos/seed/${a.idAluno}/100`}
-                alt="Foto do aluno"
-              />
+                style={{ backgroundColor: gerarCorAvatar(a.nome) }}
+              >
+                {a.nome.charAt(0).toUpperCase()}
+              </div>
+
               <div className="infoAluno">
                 <strong className="nomeAluno">{a.nome}</strong>
                 <div className="matriculaBox">
@@ -360,6 +409,12 @@ export default function DashboardProfessor() {
       {toastObs && (
         <div className="toast-sucesso">
           Observação enviada com sucesso!
+        </div>
+      )}
+
+      {toastErro && (
+        <div className="toast-erro">
+          {toastErro}
         </div>
       )}
     </div>
