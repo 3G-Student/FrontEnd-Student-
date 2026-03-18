@@ -1,25 +1,28 @@
 import { useState, useEffect } from "react";
 import "./professores.css";
-import Logo from "../../assets/logo.svg";
+import Logo from "../../../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
-import SideBar from "../../components/SideBar";
+import SideBar from "../../../components/SideBar";
 
 export default function DashboardProfessor() {
-  const backendURL = import.meta.env.VITE_BACKEND_URL; 
+  const backendURL = "http://localhost:8080";
+
   const [alunos, setAlunos] = useState([]);
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);
   const [nota1, setNota1] = useState(7.5);
   const [nota2, setNota2] = useState(7.5);
-  const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
   const [mostrarSucesso, setMostrarSucesso] = useState(false);
   const [toastObs, setToastObs] = useState(false);
   const [pesquisa, setPesquisa] = useState("");
   const [observacao, setObservacao] = useState("");
   const [observacoes, setObservacoes] = useState([]);
+  const [disciplinasProfessor, setDisciplinasProfessor] = useState([]);
+  const [disciplinasComNome, setDisciplinasComNome] = useState([]);
+  const [disciplinaSelecionada, setDisciplinaSelecionada] = useState(null);
+
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const [disciplinaId, setDisciplinaId] = useState(null);
-  
+
   const media = ((nota1 + nota2) / 2).toFixed(1);
 
   let status = "Aprovado";
@@ -34,6 +37,7 @@ export default function DashboardProfessor() {
     );
   });
 
+  // 🔹 Buscar alunos
   useEffect(() => {
     fetch(`${backendURL}/api/Aluno/listar`, {
       method: "GET",
@@ -42,14 +46,12 @@ export default function DashboardProfessor() {
       },
     })
       .then(async (response) => {
-
-      
         const text = await response.text();
-      
+
         if (!response.ok) {
           throw new Error(`Erro ${response.status}: ${text}`);
         }
-      
+
         return JSON.parse(text);
       })
       .then((data) => {
@@ -63,20 +65,22 @@ export default function DashboardProfessor() {
       .catch((error) => {
         console.error("ERRO COMPLETO:", error);
         alert(error.message);
-      });  }, 
-      []);
+      });
+  }, []);
 
+  // 🔹 Buscar observações
   useEffect(() => {
     if (!alunoSelecionado) return;
-      fetch(
-        `${backendURL}/api/Observacao/buscarObservacoesPorIdAluno/${alunoSelecionado.idAluno}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+
+    fetch(
+      `${backendURL}/api/Observacao/buscarObservacoesPorIdAluno/${alunoSelecionado.idAluno}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) throw new Error("Erro ao buscar observações");
         return response.json();
@@ -87,13 +91,13 @@ export default function DashboardProfessor() {
       .catch((error) => console.error("Erro:", error));
   }, [alunoSelecionado]);
 
+  // 🔹 Enviar observação
   const enviarObservacao = () => {
     if (!observacao.trim() || !alunoSelecionado) return;
-  
-    const professorId = localStorage.getItem("idProfessor"); 
-  
-    const dataAtual = new Date().toISOString().split("T")[0]; 
-  
+
+    const professorId = localStorage.getItem("idProfessor");
+    const dataAtual = new Date().toISOString().split("T")[0];
+
     fetch(`${backendURL}/api/Observacao/cadastrar`, {
       method: "POST",
       headers: {
@@ -114,7 +118,7 @@ export default function DashboardProfessor() {
       .then(() => {
         setObservacao("");
         setToastObs(true);
-  
+
         return fetch(
           `${backendURL}/api/Observacao/buscarObservacoesPorIdAluno/${alunoSelecionado.idAluno}`,
           {
@@ -131,68 +135,12 @@ export default function DashboardProfessor() {
         setTimeout(() => setToastObs(false), 3000);
       })
       .catch((error) => console.error("Erro:", error));
-
   };
+
+  // 🔹 Buscar disciplinas (CORRIGIDO - apenas 1 useEffect)
   useEffect(() => {
     const professorId = Number(localStorage.getItem("idProfessor"));
-  
-    fetch(`${backendURL}/api/professorDisciplina`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Erro ao buscar disciplinas do professor");
-        return response.json();
-      })
-      .then((data) => {
-  
-        const relacao = data.find(
-          (pd) => pd.professorId === professorId
-        );
-  
-        if (relacao) {
-          setDisciplinaId(relacao.disciplinaId);
-        } else {
-          console.error("Professor não possui disciplina vinculada");
-        }
-      })
-      .catch((error) => console.error("Erro:", error));
-  }, []);
-  const registrarNotas = () => {
 
-    if (!disciplinaId || !alunoSelecionado) {
-      alert("Disciplina ou aluno não encontrado");
-      return;
-    }
-  
-    fetch(`${backendURL}/api/media/cadastrar`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        disciplinaId: disciplinaId,
-        alunoId: alunoSelecionado.idAluno,
-        nota1: nota1,
-        nota2: nota2,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Erro ao registrar notas");
-        return response.text();
-      })
-      .then(() => {
-        setMostrarSucesso(true);
-        setTimeout(() => setMostrarSucesso(false), 3000);
-      })
-      .catch((error) => console.error("Erro:", error));
-  };
-  useEffect(() => {
-    const professorId = Number(localStorage.getItem("idProfessor"));
-  
     fetch(`${backendURL}/api/professorDisciplina/listar`, {
       method: "GET",
       headers: {
@@ -203,25 +151,46 @@ export default function DashboardProfessor() {
         if (!response.ok) throw new Error("Erro ao buscar disciplinas");
         return response.json();
       })
-      .then((data) => {
-        const relacao = data.find(
+      .then(async (data) => {
+        const disciplinas = data.filter(
           (item) => item.professorId === professorId
         );
-  
-        if (relacao) {
-          setDisciplinaId(relacao.disciplinaId);
-        } else {
-          console.error("Professor não possui disciplina vinculada");
+
+        const disciplinasComNome = await Promise.all(
+          disciplinas.map(async (d) => {
+            const res = await fetch(
+              `${backendURL}/api/Disciplina/buscarPorId/${d.disciplinaId}`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+
+            const disc = await res.json();
+
+            return {
+              ...d,
+              nome: disc.nome,
+            };
+          })
+        );
+
+        setDisciplinasProfessor(disciplinas);
+        setDisciplinasComNome(disciplinasComNome);
+
+        if (disciplinasComNome.length === 1) {
+          setDisciplinaSelecionada(disciplinasComNome[0].disciplinaId);
         }
       })
       .catch((error) => console.error("Erro:", error));
   }, []);
+
+  // 🔹 Cadastrar boletim (CORRIGIDO)
   const cadastrarBoletim = () => {
-    if (!disciplinaId || !alunoSelecionado) {
+    if (!disciplinaSelecionada || !alunoSelecionado) {
       alert("Disciplina ou aluno não encontrado");
       return;
     }
-  
+
     fetch(`${backendURL}/api/Boletim/cadastrar`, {
       method: "POST",
       headers: {
@@ -229,7 +198,7 @@ export default function DashboardProfessor() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        disciplinaId: disciplinaId,
+        disciplinaId: disciplinaSelecionada, // ✅ corrigido
         alunoId: alunoSelecionado.idAluno,
         nota1: nota1,
         nota2: nota2,
@@ -245,10 +214,10 @@ export default function DashboardProfessor() {
       })
       .catch((error) => console.error("Erro:", error));
   };
+
   return (
     <div className="layout">
-
-      <SideBar/>
+      <SideBar />
 
       <main className="main">
         <div className="breadcrumb">
@@ -285,15 +254,32 @@ export default function DashboardProfessor() {
               />
             </div>
 
+            {disciplinasComNome.length > 1 && (
+              <div>
+                <span>Disciplina</span>
+                <select
+                  value={disciplinaSelecionada || ""}
+                  onChange={(e) =>
+                    setDisciplinaSelecionada(Number(e.target.value))
+                  }
+                >
+                  <option value="">Selecione</option>
+
+                  {disciplinasComNome.map((d) => (
+                    <option key={d.disciplinaId} value={d.disciplinaId}>
+                      {d.nome}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             <div>
               <span>Média</span>
               <input type="number" value={media} readOnly />
             </div>
 
-            <button
-              className="registrar-notas"
-              onClick={cadastrarBoletim}
-            >
+            <button className="registrar-notas" onClick={cadastrarBoletim}>
               Registrar
             </button>
           </div>
@@ -307,10 +293,7 @@ export default function DashboardProfessor() {
               value={observacao}
               onChange={(e) => setObservacao(e.target.value)}
             />
-            <button
-              className="registrar-notass"
-              onClick={enviarObservacao}
-            >
+            <button className="registrar-notass" onClick={enviarObservacao}>
               Enviar
             </button>
           </section>
@@ -368,12 +351,6 @@ export default function DashboardProfessor() {
         </div>
       </aside>
 
-      {mostrarSucesso && (
-        <div className="toast-sucesso">Notas registradas!</div>
-      )}
-      {toastObs && (
-        <div className="toast-sucesso">Observação enviada!</div>
-      )}
       {mostrarSucesso && (
         <div className="toast-sucesso">
           Nota cadastrada com sucesso!

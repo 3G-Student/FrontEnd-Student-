@@ -5,8 +5,8 @@ export default function TeacherList({ teachers, onSelect }) {
   const [query, setQuery] = useState('');
 
   const filtered = teachers.filter((t) =>
-    t.name.toLowerCase().includes(query.toLowerCase()) ||
-    t.id.includes(query)
+  t.nome?.toLowerCase().includes(query.toLowerCase())||
+  t.id.includes(query)
   );
 
   return (

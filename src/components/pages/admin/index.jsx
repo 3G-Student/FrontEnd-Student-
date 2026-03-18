@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import './admin.css';
-import Sidebar from "../../components/SideBar";
-import StatsBar from '../../components/StatsBar';
-import RegisterTeacher from '../../components/RegisterTeacher';
-import TeacherProfile from '../../components/TeacherProfile';
-import TeacherList from '../../components/TeacherList';
-import Logo from "../../assets/logo.svg";
-import Notification from "../../components/notification/Notification";
+import Sidebar from "../../../components/SideBar";
+import StatsBar from '../../../components/StatsBar';
+import RegisterTeacher from '../../../components/RegisterTeacher';
+import TeacherProfile from '../../../components/TeacherProfile';
+import TeacherList from '../../../components/TeacherList';
+import Logo from "../../../assets/logo.svg";
+import Notification from "../../../components/notification/Notification";
 
 export default function DashboardAdmin() {
   const [teachers, setTeachers] = useState([]);
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080"
   const token = localStorage.getItem("token");
 
   const [notification, setNotification] = useState({ message: "", type: "" });

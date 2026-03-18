@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/auth/login"
-import Cadastro from "./pages/auth/cadastro"
-import Aluno from "./pages/aluno"
-import Professores from "./pages/professores"
-import Admin from "./pages/admin"
-import Perfil from "./pages/perfil"
+import Login from "./components/pages/auth/login"
+import Cadastro from "./components/pages/auth/cadastro"
+import Aluno from "./components/pages/aluno/"
+import Professores from "./components/pages/professores"
+import Admin from "./components/pages/admin"
+import Perfil from "./components/pages/perfil"
 
 export default function App() {
   return (

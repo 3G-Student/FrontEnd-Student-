@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-import Logo from "../../../assets/logo.svg";
+import Logo from "../../../../assets/logo.svg";
 import "./login.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
-  
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080"
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [verSenha, setVerSenha] = useState(false);

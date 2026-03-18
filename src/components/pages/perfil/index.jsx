@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Sidebar from "../../components/SideBar";
+import Sidebar from "../../../components/SideBar";
 import "./perfil.css";
 
 export default function Perfil() {
@@ -9,8 +9,8 @@ export default function Perfil() {
   const idUsuario = localStorage.getItem("idUsuario");
   const idTipoUsuario = localStorage.getItem("idTipoUsuario");
   const token = localStorage.getItem("token");
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
-
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080"
   useEffect(() => {
     if (!idUsuario) return;
 

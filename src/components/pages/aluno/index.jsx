@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import './aluno.css';
-import Logo from "../../assets/logo.svg";
-import Sidebar from "../../components/SideBar";
+import Logo from "../../../assets/logo.svg";
+import Sidebar from "../../SideBar";
 
 export default function DashboardAluno() {
   const [boletim, setBoletim] = useState([]);
@@ -9,7 +9,9 @@ export default function DashboardAluno() {
   const [notificacoes, setNotificacoes] = useState([]);
   const [dadosAluno, setDadosAluno] = useState(null);
   
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080"
+
   const token = localStorage.getItem("token");
   const idAluno = localStorage.getItem("idAluno");
 

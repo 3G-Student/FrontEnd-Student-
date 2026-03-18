@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react"; 
-import Logo from "../../../assets/logo.svg";
+import Logo from "../../../../assets/logo.svg";
 import "./cadastro.css";
 
 export default function Cadastro() {
   const navigate = useNavigate();
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080"
 
   const [nome, setNome] = useState("");
   const [matricula, setMatricula] = useState("");
