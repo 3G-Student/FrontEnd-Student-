@@ -147,7 +147,7 @@
 }
 
 .input-group input {
-  width: 500px;
+  width: 100%;
   padding: 22px;
   color: black;
   border-radius: 14px;
@@ -287,6 +287,7 @@ border-radius:10px;
     flex-direction: column;
     align-items: center;
     gap:40px;
+    margin-right: 0px;
   }
 
   .foto-box{
@@ -476,6 +477,23 @@ border-radius:10px;
   .perfil-content{
     margin-left:0;
   }
+  .perfil-header{
+    justify-content:flex-start;
+    gap:10px;
+  }
+
+  .header-left{
+    display:none;
+  }
+
+  .student-tag{
+    display:none;
+  }
+
+  .mobile-back{
+    display:block;
+  }
+
 }
 .atualizar-senha{
   margin-top:12px;
@@ -528,7 +546,6 @@ border-radius:10px;
 
 .input-group {
   width: 100%;
-  max-width: 320px;
   text-align: center;
 }
 
@@ -538,7 +555,6 @@ border-radius:10px;
 
 .atualizar-senha {
   width: 100%;
-  max-width: 320px;
 }
 .perfil-card.center-only {
   justify-content: center;
