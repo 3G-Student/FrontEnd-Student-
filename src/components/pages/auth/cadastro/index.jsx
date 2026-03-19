@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react"; 
 import Logo from "../../../../assets/logo.svg";
+import Notification from "../../../notification/Notification";
 import "./cadastro.css";
 
 async function readResponse(response, fallbackMessage) {
@@ -230,17 +231,25 @@ export default function Cadastro() {
   const [senha, setSenha] = useState("");
   const [verSenha, setVerSenha] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState(null);
+  const [notification, setNotification] = useState({ message: "", type: "" });
+
+  const closeNotification = () => {
+    setNotification({ message: "", type: "" });
+  };
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+  };
 
   const cadastrarBackend = async () => {
     if (!nome || !matricula || !email || !senha) {
-      setErro("Preencha todos os campos");
+      showNotification("Preencha todos os campos.", "error");
       return;
     }
 
     try {
       setLoading(true);
-      setErro(null);
+      closeNotification();
 
       const normalizedName = nome.trim();
       const normalizedMatricula = matricula.trim();
@@ -292,7 +301,7 @@ export default function Cadastro() {
       navigate("/login"); 
 
     } catch (err) {
-      setErro(err.message);
+      showNotification(err.message, "error");
     } finally {
       setLoading(false);
     }
@@ -347,8 +356,6 @@ export default function Cadastro() {
             </button>
           </div>
 
-          {erro && <p className="error-message">{erro}</p>}
-
           <button
             className="btn-cadastrar"
             onClick={cadastrarBackend}
@@ -365,6 +372,7 @@ export default function Cadastro() {
           </small>
         </div>
       </div>
+      <Notification {...notification} onClose={closeNotification} />
     </div>
   );
 }
