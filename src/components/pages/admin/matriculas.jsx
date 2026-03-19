@@ -9,6 +9,7 @@ import {
   AdminTabs,
   StatsSummary,
   buildStudentMetrics,
+  ensureArray,
   getAvatarInitial,
   normalizeStudent,
   readResponse,
@@ -284,13 +285,25 @@ export default function DashboardMatriculas() {
 
       const studentsData = await readResponse(studentsResponse, "Erro ao carregar alunos.");
       const usersData = await readResponse(usersResponse, "Erro ao carregar usuarios.");
-      const usersMap = new Map((usersData || []).map((user) => [user.idUsuario, user]));
-      const normalizedStudents = (studentsData || []).map((student, index) =>
+      
+      console.log("DEBUG: studentsData =", studentsData);
+      console.log("DEBUG: usersData =", usersData);
+
+      const usersList = ensureArray(usersData);
+      const studentsList = ensureArray(studentsData);
+      
+      console.log("DEBUG: usersList =", usersList);
+      console.log("DEBUG: studentsList =", studentsList);
+      
+      const usersMap = new Map(usersList.map((user) => [user.idUsuario, user]));
+      const normalizedStudents = studentsList.map((student, index) =>
         normalizeStudent(student, index, usersMap)
       );
       const pending = normalizedStudents.filter((student) => !student.active);
 
-      setStats(buildStudentMetrics(studentsData || []));
+      console.log("DEBUG: pending =", pending);
+
+      setStats(buildStudentMetrics(studentsList));
       setPendingStudents(pending);
       setSelectedStudent((current) => {
         if (!pending.length) return null;

@@ -35,6 +35,16 @@ export async function readResponse(response, fallbackMessage) {
   return parsed;
 }
 
+export function ensureArray(value) {
+  if (Array.isArray(value)) return value;
+  if (value && typeof value === "object") {
+    if (Array.isArray(value.data)) return value.data;
+    if (Array.isArray(value.usuarios)) return value.usuarios;
+    if (Array.isArray(value.items)) return value.items;
+  }
+  return [];
+}
+
 export function buildStudentMetrics(students) {
   const activeStudents = students.filter((student) => student.ativo === true).length;
   const pendingEnrollments = students.filter((student) => student.ativo !== true).length;

@@ -159,10 +159,12 @@
   .alunos input {
     padding: 12px 18px;
     border-radius: 25px;
-    border: 2px solid #695CAC;
+    border: 1px solid #695CAC;
     margin-bottom: 15px;
-    background-color: #f4f6ff;
+    background-color: #ffffff;
     color: #695CAC;
+    margin-top: 15px;
+    width: 400px;
   }
   
   .lista-alunos {
@@ -299,19 +301,29 @@
     gap: 12px;
   }
   
-  .msg-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .msg-avatar {
-    width: 36px;
-    height: 36px;
-    background: orange;
-    border-radius: 50%;
-    border: 2px solid #695CAC;
-  }
+.msg-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.msg-avatar {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #695CAC;
+  color: #2E2948;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.msg-avatar.professor {
+  color: #ffffff;
+}
   
   .msg-user {
     display: flex;
@@ -444,10 +456,15 @@
   .registrar-notas{
     background-color: #695CAC;
     width: 140px;
+    margin-left: 17%;
+    color: white;
   }
+
   .registrar-notass{
     background-color: #695CAC;
-    margin-left: 81.5%;
+    margin-left: 84.5%;
+    margin-top: 12px;
+    color: white;
   }
   .divNota1{
     margin-left: 5%;

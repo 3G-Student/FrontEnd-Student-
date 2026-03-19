@@ -35,6 +35,21 @@
   align-items: center;
   padding-top: 30px;
 } 
+
+.perfil-user-badge {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  border-radius: 50%;
+  background: #9cc56d;
+  color: #2e2f54;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
   
 .perfil-content {
   flex: 1;
@@ -251,9 +266,6 @@ border-radius:10px;
   background-color: #695CAC;
 }
 
-.sidebar-perfil{
-  margin-top: 15%;
-}
 .sidebar-voltar {
   width: 55px;
   height: 55px;
@@ -263,7 +275,7 @@ border-radius:10px;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  color: #2e2f54;
   cursor: pointer;
 }
 @media (max-width: 900px) {

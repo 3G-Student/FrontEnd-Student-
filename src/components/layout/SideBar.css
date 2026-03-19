@@ -1,8 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 .sidebar {
-  width: 78px;
-  min-height: calc(100vh - 28px);
+  min-height: calc(80vh - 22px);
   margin: 14px 18px 14px 20px;
   padding-top: 16px;
   flex-shrink: 0;
@@ -16,7 +15,8 @@
   font-family: "Poppins", sans-serif;
 }
 .sidebar {
-  width: 100px;
+  width: 90px;
+  height: 740px;
   background-color: #695CAC;
   border-radius: 22px;
   margin: 18px 0 18px 0px;
@@ -26,6 +26,7 @@
   padding-top: 35px;
   flex-shrink: 0;
   margin-left: 1%;
+  align-self: center;
 }
 
 .sidebar-top {
