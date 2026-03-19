@@ -222,7 +222,7 @@ async function createStudentRegistration({
 
 export default function Cadastro() {
   const navigate = useNavigate();
-  const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const [nome, setNome] = useState("");
   const [matricula, setMatricula] = useState("");

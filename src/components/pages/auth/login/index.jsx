@@ -32,7 +32,7 @@ async function readResponse(response, fallbackMessage) {
 
 export default function Login() {
   const navigate = useNavigate();
-  const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [verSenha, setVerSenha] = useState(false);

@@ -26,8 +26,7 @@ export default function PerfilProfessor() {
     }
   };
 
-  // const backendURL = import.meta.env.VITE_BACKEND_URL;
-    const backendURL = "http://localhost:8080";
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const validarSenha = (senha) => {
     const regex =
