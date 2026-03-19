@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import SideBar from "../../../components/layout";
 
 export default function DashboardProfessor() {
-  const backendURL = "http://localhost:8080";
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const [alunos, setAlunos] = useState([]);
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);

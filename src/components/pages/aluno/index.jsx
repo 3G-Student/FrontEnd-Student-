@@ -9,8 +9,7 @@ export default function DashboardAluno() {
   const [notificacoes, setNotificacoes] = useState([]);
   const [dadosAluno, setDadosAluno] = useState(null);
   
-  // const backendURL = import.meta.env.VITE_BACKEND_URL;
-  const backendURL = "http://localhost:8080"
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const token = localStorage.getItem("token");
   const idAluno = localStorage.getItem("idAluno");
