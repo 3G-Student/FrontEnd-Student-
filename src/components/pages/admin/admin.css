@@ -255,6 +255,9 @@
 .remove-btn:hover {
   filter: brightness(1.03);
 }
+.remove-btn{
+  background-color: #ed5250;
+}
 
 .register-btn:focus,
 .register-btn:focus-visible,

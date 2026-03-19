@@ -498,7 +498,7 @@ function SearchableEntityList({ items, onSelect, selectedId, searchPlaceholder }
   );
 }
 
-function RegistrationForm({ config, onRegister, showNotification, onNavigate, disciplines }) {
+function RegistrationForm({ config, onRegister, showNotification, onNavigate, disciplines, backendURL, authHeaders }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -625,7 +625,6 @@ function SelectedProfile({ item, config, onDelete }) {
         <h2 className="profile-name">{item.name}</h2>
         <p className="profile-email">{item.email}</p>
         <button className="remove-btn" onClick={() => onDelete(item)}>
-          <Trash2 size={20} fill="white" />
           {config.removeLabel}
         </button>
       </div>
@@ -641,9 +640,33 @@ export function UserManagementDashboard({ mode }) {
   const [stats, setStats] = useState({ activeStudents: 0, totalStudents: 0, pendingEnrollments: 0 });
   const [notification, setNotification] = useState({ message: "", type: "" });
   const [selectedItem, setSelectedItem] = useState(null);
+  const removerTodosVinculos = async (professorId) => {
+  try {
+    const response = await fetch(
+      `${backendURL}/api/professorDisciplina/listar`,
+      { headers: authHeaders() }
+    );
 
-  // const backendURL = import.meta.env.VITE_BACKEND_URL;
-  const backendURL = "http://localhost:8080";
+    const lista = await readResponse(response, "Erro ao buscar vínculos");
+
+    const vinculos = (lista || []).filter(
+      (v) => String(v.professorId) === String(professorId)
+    );
+
+    for (const v of vinculos) {
+      await fetch(
+        `${backendURL}/api/professorDisciplina/remover?professorId=${v.professorId}&disciplinaId=${v.disciplinaId}`,
+        {
+          method: "DELETE",
+          headers: authHeaders(),
+        }
+      );
+    }
+  } catch (error) {
+    console.warn("Erro ao remover vínculos:", error);
+  }
+};
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const token = localStorage.getItem("token");
 
   const authHeaders = useCallback(
@@ -832,51 +855,36 @@ export function UserManagementDashboard({ mode }) {
   };
 
   const handleDelete = async (item) => {
-    if (!window.confirm(config.deleteConfirm)) return;
+  if (!window.confirm(config.deleteConfirm)) return;
 
-    try {
-      const deleteAttempts = [{ path: config.deleteEndpoint(item.id), kind: "entity" }];
-
-      if (item.userId) {
-        deleteAttempts.push({ path: `Usuario/excluir/${item.userId}`, kind: "user" });
-      }
-
-      let deletedSomething = false;
-      let lastError = null;
-
-      for (const attempt of deleteAttempts) {
-        try {
-          await readResponse(
-            await fetch(`${backendURL}/api/${attempt.path}`, {
-              method: "DELETE",
-              headers: authHeaders(),
-            }),
-            config.deleteError
-          );
-          deletedSomething = true;
-        } catch (error) {
-          lastError = error;
-
-          if (error.status === 404) {
-            continue;
-          }
-
-          if (![400, 405, 500].includes(error.status)) {
-            throw error;
-          }
-        }
-      }
-
-      if (!deletedSomething && lastError) {
-        throw lastError;
-      }
-
-      showNotification(config.deleteSuccess, "success");
-      await loadDashboard();
-    } catch (error) {
-      showNotification(error.message || config.deleteError, "error");
+  try {
+    if (mode === "teachers") {
+      await removerTodosVinculos(item.id);
     }
-  };
+
+    const deleteAttempts = [{ path: config.deleteEndpoint(item.id) }];
+
+    if (item.userId) {
+      deleteAttempts.push({ path: `Usuario/excluir/${item.userId}` });
+    }
+
+    for (const attempt of deleteAttempts) {
+      await readResponse(
+        await fetch(`${backendURL}/api/${attempt.path}`, {
+          method: "DELETE",
+          headers: authHeaders(),
+        }),
+        config.deleteError
+      );
+    }
+
+    showNotification(config.deleteSuccess, "success");
+    await loadDashboard();
+  } catch (error) {
+    console.error(error);
+    showNotification(error.message || config.deleteError, "error");
+  }
+};
 
   const activeEntityCount = items.filter((item) => item.active !== false).length;
 
@@ -905,6 +913,8 @@ export function UserManagementDashboard({ mode }) {
               showNotification={showNotification}
               onNavigate={navigateTab}
               disciplines={disciplines}
+              backendURL={backendURL}
+              authHeaders={authHeaders}
             />
             <div className="profile-separator" />
             <SelectedProfile item={selectedItem} config={config} onDelete={handleDelete} />
