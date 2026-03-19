@@ -91,24 +91,6 @@ function SelectedStudentProfile({ student, onApprove, onReject, loadingAction })
           <span className="student-meta-chip">Matricula {student.matricula}</span>
           <span className="student-meta-chip pending">Pendente</span>
         </div>
-        <div className="profile-actions">
-          <button
-            className="reject-btn approve-btn-large"
-            onClick={() => onReject(student)}
-            disabled={loadingAction !== null}
-          >
-            <X size={18} />
-            {loadingAction === "reject" ? "Reprovando..." : "Reprovar matricula"}
-          </button>
-          <button
-            className="approve-btn approve-btn-large"
-            onClick={() => onApprove(student)}
-            disabled={loadingAction !== null}
-          >
-            <Check size={18} />
-            {loadingAction === "approve" ? "Aprovando..." : "Aprovar matricula"}
-          </button>
-        </div>
       </div>
     </div>
   );
@@ -244,7 +226,8 @@ export default function DashboardMatriculas() {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [actionLoading, setActionLoading] = useState({ id: null, type: null });
 
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  // const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = "http://localhost:8080";
   const token = localStorage.getItem("token");
 
   const authHeaders = useCallback(
