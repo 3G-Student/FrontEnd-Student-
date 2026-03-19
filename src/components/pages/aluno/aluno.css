@@ -71,6 +71,8 @@ body {
   border: 1.5px solid #695CAC;
   border-radius: 28px;
   overflow: hidden;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
 .grades-table {
@@ -124,7 +126,7 @@ body {
   color: #842029;
 }
 
-.status-pendente {
+.status-recuperacao {
   background-color: #FFF3CD;
   color: #664D03;
 }

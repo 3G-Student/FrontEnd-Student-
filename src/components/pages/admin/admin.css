@@ -37,7 +37,7 @@
   font-weight: 600;
   line-height: 1.15;
   color: var(--text-dark);
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .header-text span {
@@ -304,7 +304,7 @@
 
 .profile-separator {
   height: 2px;
-  margin: 42px 12px ;
+  margin: 22px 22px ;
   background: #e4dff7;
 }
 
@@ -313,7 +313,7 @@
   align-items: center;
   gap: 32px;
   padding-left: 40px;
-  padding-bottom: 60px;
+  padding-bottom: 20px;
 }
 
 .profile-avatar {

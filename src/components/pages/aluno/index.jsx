@@ -91,10 +91,13 @@ export default function DashboardAluno() {
                       if (n1 === null || n2 === null) {
                         situacao = "Pendente";
                         situacaoClass = "status-pendente";
-                      } else if (media < 7) {
+                      } else if (media < 6) {
                         situacao = "Reprovado";
                         situacaoClass = "status-reprovado";
-                      }
+                      } else if (media < 7) {
+                        situacao = "Recuperação";
+                        situacaoClass = "status-recuperacao";
+                      } 
 
                       return (
                         <tr key={index}>
