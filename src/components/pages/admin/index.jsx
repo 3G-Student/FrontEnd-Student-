@@ -642,7 +642,7 @@ export function UserManagementDashboard({ mode }) {
   const [notification, setNotification] = useState({ message: "", type: "" });
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const backendURL = "http://localhost:8080";
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const token = localStorage.getItem("token");
 
   const authHeaders = useCallback(

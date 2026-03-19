@@ -243,7 +243,7 @@ export default function DashboardMatriculas() {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [actionLoading, setActionLoading] = useState({ id: null, type: null });
 
-  const backendURL = "http://localhost:8080";
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const token = localStorage.getItem("token");
 
   const authHeaders = useCallback(

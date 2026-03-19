@@ -25,8 +25,7 @@ export default function PerfilProfessor() {
     }
   };
 
-  // const backendURL = import.meta.env.VITE_BACKEND_URL;
-  const backendURL = "http://localhost:8080"
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const validarSenha = (senha) => {
     const regex =
@@ -171,7 +170,7 @@ export default function PerfilProfessor() {
 
   return (
     <div className="perfil-page">
-
+  
       <aside className="perfil-sidebar">
         <div
           className="sidebar-perfil"
@@ -181,93 +180,52 @@ export default function PerfilProfessor() {
           </div>
         </div>
       </aside>
-
+  
       <div className="perfil-content">
-
+  
         <div
           className="mobile-back-button"
           onClick={voltarPagina}>
           <FaArrowLeft />
         </div>
-
+  
         <header className="perfil-header">
-
+  
           <div className="header-mobile">
             <FaArrowLeft
               className="mobile-back"
               onClick={voltarPagina}/>
           </div>
-
+  
           <div className="header-left">
             <div>
               <h2>Perfil</h2>
               <span className="sub">Professor</span>
             </div>
           </div>
-
+  
           <span
             className="student-tag"
             onClick={voltarPagina}>
             STUDENT <span>+</span>
           </span>
-
+  
         </header>
-
-        <div
-          className={`perfil-card ${
-            tipoUsuario !== 2 ? "center-only" : ""
-          }`}
-        >
-
-          {tipoUsuario === 2 && (
-            <div className="perfil-left">
-              <div className="avatar-professor">
-                {nome ? nome.charAt(0).toUpperCase() : "P"}
-              </div>
-
-              <h3 className="prof-nome">{nome}</h3>
-              <p className="prof-email">{email}</p>
-
-              <div className="perfil-stats-left">
-                <div className="prof-info-extra">
-                  <span>Tipo de conta</span>
-                  <strong className="strong-tipo">Professor</strong>
-                </div>
-
-                <div className="prof-info-extra">
-                  <span>Status</span>
-                  <strong className="status-ativo">Ativo</strong>
-                </div>
-
-                <div className="prof-info-extra">
-                  <span>Observações</span>
-                  <strong className="strong-tipo-observacao">
-                    {totalObservacoes}
-                  </strong>
-                </div>
-
-                <div className="prof-info-extra">
-                  <span>Recuperação</span>
-                  <strong className="recuperacao">
-                    {alunosRecuperacao}
-                  </strong>
-                </div>
-              </div>
-            </div>
-          )}
-
+  
+        <div className="perfil-card center-only">
+  
           <div className="perfil-right">
-
+  
             <div className="input-group-perfil">
               <label>Nome</label>
               <input type="text" value={nome} readOnly />
             </div>
-
+  
             <div className="input-group-perfil">
               <label>Email</label>
               <input type="email" value={email} readOnly />
             </div>
-
+  
             <div className="input-group-perfil">
               <label>Nova senha</label>
               <input
@@ -277,29 +235,29 @@ export default function PerfilProfessor() {
                 placeholder="Digite a nova senha"
               />
             </div>
-
+  
             <button
               className="atualizar-senha"
               onClick={atualizarSenha}
             >
               Atualizar senha
             </button>
-
+  
           </div>
         </div>
-
+  
         {popupSucesso && (
           <div className="toast-sucesso">
             Senha atualizada com sucesso!
           </div>
         )}
-
+  
         {popupErro && (
           <div className="toast-erro">
             {popupErro}
           </div>
         )}
-
+  
       </div>
     </div>
   );
