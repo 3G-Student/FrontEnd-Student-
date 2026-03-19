@@ -2,7 +2,33 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import Logo from "../../../../assets/logo.svg";
+import Notification from "../../../notification/Notification";
 import "./login.css";
+
+async function readResponse(response, fallbackMessage) {
+  const raw = await response.text();
+  let parsed = null;
+
+  if (raw) {
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      parsed = raw;
+    }
+  }
+
+  if (!response.ok) {
+    const message =
+      (parsed && typeof parsed === "object" && (parsed.erro || parsed.message || parsed.mensagem || parsed.error)) ||
+      (typeof parsed === "string" ? parsed : "") ||
+      fallbackMessage;
+    const error = new Error(message);
+    error.status = response.status;
+    throw error;
+  }
+
+  return parsed;
+}
 
 export default function Login() {
   const navigate = useNavigate();
@@ -11,17 +37,25 @@ export default function Login() {
   const [senha, setSenha] = useState("");
   const [verSenha, setVerSenha] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState(null);
+  const [notification, setNotification] = useState({ message: "", type: "" });
+
+  const closeNotification = () => {
+    setNotification({ message: "", type: "" });
+  };
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+  };
 
   const loginBackend = async () => {
     if (!email || !senha) {
-      setErro("Preencha todos os campos");
+      showNotification("Preencha todos os campos.", "error");
       return;
     }
 
     try {
       setLoading(true);
-      setErro(null);
+      closeNotification();
 
       const response = await fetch(`${backendURL}/api/Usuario/login`, {
         method: "POST",
@@ -29,11 +63,7 @@ export default function Login() {
         body: JSON.stringify({ email, senha }),
       });
 
-      if (!response.ok) {
-        throw new Error("Usuário ou senha inválidos");
-      }
-
-      const data = await response.json();
+      const data = await readResponse(response, "Usuario ou senha invalidos.");
       localStorage.setItem("token", data.token);
       localStorage.setItem("idUsuario", data.idUsuario);
       localStorage.setItem("idTipoUsuario", data.idTipoUsuario);
@@ -49,7 +79,7 @@ export default function Login() {
       else navigate("/");
 
     } catch (err) {
-      setErro(err.message);
+      showNotification(err.message, "error");
     } finally {
       setLoading(false);
     }
@@ -91,8 +121,6 @@ export default function Login() {
           </div>
         </div>
 
-        {erro && <span className="error-message">{erro}</span>}
-
         <button
           className="btn-login"
           onClick={loginBackend}
@@ -106,6 +134,7 @@ export default function Login() {
           <span className="link-login" onClick={() => navigate("/")}>Clique aqui para se cadastrar</span>
         </p>
       </div>
+      <Notification {...notification} onClose={closeNotification} />
     </div>
   );
 }

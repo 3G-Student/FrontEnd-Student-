@@ -8,9 +8,22 @@ export const ADMIN_TABS = [
 
 export async function readResponse(response, fallbackMessage) {
   const raw = await response.text();
+  let parsed = null;
+
+  if (raw) {
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      parsed = raw;
+    }
+  }
 
   if (!response.ok) {
-    const error = new Error(raw || fallbackMessage);
+    const message =
+      (parsed && typeof parsed === "object" && (parsed.erro || parsed.message || parsed.mensagem || parsed.error)) ||
+      (typeof parsed === "string" ? parsed : "") ||
+      fallbackMessage;
+    const error = new Error(message);
     error.status = response.status;
     throw error;
   }
@@ -19,11 +32,7 @@ export async function readResponse(response, fallbackMessage) {
     return null;
   }
 
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return raw;
-  }
+  return parsed;
 }
 
 export function buildStudentMetrics(students) {

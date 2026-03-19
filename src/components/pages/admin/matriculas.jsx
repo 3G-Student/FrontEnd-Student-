@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check, Search } from "lucide-react";
+import { Check, Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./admin.css";
 import Sidebar from "../../../components/layout";
@@ -21,7 +21,7 @@ const APPROVAL_ATTEMPTS = [
   { method: "PATCH", path: (id) => `Aluno/editar/${id}` },
 ];
 
-function ApprovalCard({ student, onApprove, onNavigate, loading }) {
+function ApprovalCard({ student, onApprove, onReject, onNavigate, loadingAction }) {
   return (
     <div className="register-card">
       <div className="register-card-header">
@@ -46,10 +46,24 @@ function ApprovalCard({ student, onApprove, onNavigate, loading }) {
           </div>
           <div className="approval-card-footer">
             <span className="approval-status-chip">Pendente</span>
-            <button className="approve-btn" onClick={() => onApprove(student)} disabled={loading}>
+            <div className="approval-actions">
+              <button
+                className="reject-btn"
+                onClick={() => onReject(student)}
+                disabled={loadingAction !== null}
+              >
+                <X size={18} />
+                {loadingAction === "reject" ? "Reprovando..." : "Reprovar"}
+              </button>
+              <button
+                className="approve-btn"
+                onClick={() => onApprove(student)}
+                disabled={loadingAction !== null}
+              >
               <Check size={18} />
-              {loading ? "Aprovando..." : "Aprovar matricula"}
-            </button>
+                {loadingAction === "approve" ? "Aprovando..." : "Aprovar matricula"}
+              </button>
+            </div>
           </div>
         </>
       ) : (
@@ -59,7 +73,7 @@ function ApprovalCard({ student, onApprove, onNavigate, loading }) {
   );
 }
 
-function SelectedStudentProfile({ student, onApprove, loading }) {
+function SelectedStudentProfile({ student, onApprove, onReject, loadingAction }) {
   if (!student) {
     return <div className="teacher-profile-empty">Nenhum aluno pendente selecionado.</div>;
   }
@@ -76,10 +90,24 @@ function SelectedStudentProfile({ student, onApprove, loading }) {
           <span className="student-meta-chip">Matricula {student.matricula}</span>
           <span className="student-meta-chip pending">Pendente</span>
         </div>
-        <button className="approve-btn approve-btn-large" onClick={() => onApprove(student)} disabled={loading}>
-          <Check size={18} />
-          {loading ? "Aprovando..." : "Aprovar matricula"}
-        </button>
+        <div className="profile-actions">
+          <button
+            className="reject-btn approve-btn-large"
+            onClick={() => onReject(student)}
+            disabled={loadingAction !== null}
+          >
+            <X size={18} />
+            {loadingAction === "reject" ? "Reprovando..." : "Reprovar matricula"}
+          </button>
+          <button
+            className="approve-btn approve-btn-large"
+            onClick={() => onApprove(student)}
+            disabled={loadingAction !== null}
+          >
+            <Check size={18} />
+            {loadingAction === "approve" ? "Aprovando..." : "Aprovar matricula"}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -170,13 +198,50 @@ async function approveStudent({ backendURL, headers, student }) {
   throw lastError;
 }
 
+async function rejectStudentRegistration({ backendURL, headers, student }) {
+  const deleteAttempts = [{ path: `Aluno/excluir/${student.id}` }];
+
+  if (student.userId) {
+    deleteAttempts.push({ path: `Usuario/excluir/${student.userId}` });
+  }
+
+  let deletedSomething = false;
+  let lastError = new Error("Nao foi possivel reprovar a matricula.");
+
+  for (const attempt of deleteAttempts) {
+    const response = await fetch(`${backendURL}/api/${attempt.path}`, {
+      method: "DELETE",
+      headers,
+    });
+
+    try {
+      await readResponse(response, "Nao foi possivel reprovar a matricula.");
+      deletedSomething = true;
+    } catch (error) {
+      lastError = error;
+
+      if (error.status === 404) {
+        continue;
+      }
+
+      if (![400, 405, 500].includes(error.status)) {
+        throw error;
+      }
+    }
+  }
+
+  if (!deletedSomething) {
+    throw lastError;
+  }
+}
+
 export default function DashboardMatriculas() {
   const navigate = useNavigate();
   const [pendingStudents, setPendingStudents] = useState([]);
   const [stats, setStats] = useState({ activeStudents: 0, totalStudents: 0, pendingEnrollments: 0 });
   const [notification, setNotification] = useState({ message: "", type: "" });
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [approvalLoadingId, setApprovalLoadingId] = useState(null);
+  const [actionLoading, setActionLoading] = useState({ id: null, type: null });
 
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const token = localStorage.getItem("token");
@@ -243,7 +308,7 @@ export default function DashboardMatriculas() {
 
   const handleApprove = async (student) => {
     try {
-      setApprovalLoadingId(student.id);
+      setActionLoading({ id: student.id, type: "approve" });
       await approveStudent({
         backendURL,
         headers: authHeaders(),
@@ -254,7 +319,26 @@ export default function DashboardMatriculas() {
     } catch (error) {
       showNotification(error.message || "Nao foi possivel aprovar a matricula.", "error");
     } finally {
-      setApprovalLoadingId(null);
+      setActionLoading({ id: null, type: null });
+    }
+  };
+
+  const handleReject = async (student) => {
+    if (!window.confirm("Reprovar esta matricula e excluir aluno e usuario?")) return;
+
+    try {
+      setActionLoading({ id: student.id, type: "reject" });
+      await rejectStudentRegistration({
+        backendURL,
+        headers: authHeaders(),
+        student,
+      });
+      showNotification("Matricula reprovada com sucesso!", "success");
+      await loadPendingStudents();
+    } catch (error) {
+      showNotification(error.message || "Nao foi possivel reprovar a matricula.", "error");
+    } finally {
+      setActionLoading({ id: null, type: null });
     }
   };
 
@@ -280,14 +364,16 @@ export default function DashboardMatriculas() {
             <ApprovalCard
               student={selectedStudent}
               onApprove={handleApprove}
+              onReject={handleReject}
               onNavigate={navigateTab}
-              loading={approvalLoadingId === selectedStudent?.id}
+              loadingAction={actionLoading.id === selectedStudent?.id ? actionLoading.type : null}
             />
             <div className="profile-separator" />
             <SelectedStudentProfile
               student={selectedStudent}
               onApprove={handleApprove}
-              loading={approvalLoadingId === selectedStudent?.id}
+              onReject={handleReject}
+              loadingAction={actionLoading.id === selectedStudent?.id ? actionLoading.type : null}
             />
           </section>
 
