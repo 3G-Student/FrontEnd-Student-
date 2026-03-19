@@ -4,17 +4,27 @@
 }
   
 .perfil-page {
-  display: flex;
   min-height: 100vh;
   background: #f9f9ff;
 }
   
-/* SIDEBAR */
 .perfil-sidebar {
-  width: 120px;
+  width: 100px;
+  background-color: #695CAC;
+  border-radius: 22px;
+  margin: 18px 0 18px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 35px;
+  flex-shrink: 0;
+}
+
+.perfil-sidebar {
+  width: 100px;
   height: 97vh;
   background: #695CAC;
-  border-radius: 35px;
+  border-radius: 22px;
   position: fixed;
   left: 0;
   top: 0;
@@ -24,16 +34,29 @@
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
+} 
+
+.perfil-user-badge {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  border-radius: 50%;
+  background: #9cc56d;
+  color: #2e2f54;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
 }
   
-/* CONTEÚDO */
 .perfil-content {
   flex: 1;
   padding:30px;
   margin-left: 140px; 
 }
   
-/* HEADER */
 .perfil-header {
   display: flex;
   justify-content: space-between;
@@ -56,21 +79,21 @@
   color: #6c63ff;
 }
 
-/* CARD */
 .perfil-card {
   background: white;
   border: 2px solid #cfcdf8;
   border-radius: 30px;
   padding: 40px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 40px;
   flex-wrap: wrap;
   padding-left: 110px;
   padding-right: 110px;
+  margin-left: 10%;
+  width: 80%;
 }
 
-/* FOTO */
 .foto-section {
   display: flex;
   flex-direction: column;
@@ -110,7 +133,6 @@
   font-weight: 500;
 }
 
-/* FORM */
 .form-section {
   width: 100%;
   max-width: 450px;
@@ -122,20 +144,20 @@
   margin-right: 40px;
 }
 
-.input-group{
+.input-group-perfil{
   display:flex;
   flex-direction:column;
   width:100%;
   gap:6px;
 }
 
-.input-group label {
+.input-group-perfil label {
   font-size: 14px;
   color: #333;
 }
 
-.input-group input {
-  width: 500px;
+.input-group-perfil input {
+  width: 100%;
   padding: 22px;
   color: black;
   border-radius: 14px;
@@ -146,7 +168,6 @@
   font-size: 16px;
 }
 
-/* BOTÃO SALVAR */
 .salvar-btn {
   width: 100%;
   max-width: 429px;
@@ -245,9 +266,6 @@ border-radius:10px;
   background-color: #695CAC;
 }
 
-.sidebar-perfil{
-  margin-top: 15%;
-}
 .sidebar-voltar {
   width: 55px;
   height: 55px;
@@ -257,7 +275,7 @@ border-radius:10px;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  color: #2e2f54;
   cursor: pointer;
 }
 @media (max-width: 900px) {
@@ -275,6 +293,7 @@ border-radius:10px;
     flex-direction: column;
     align-items: center;
     gap:40px;
+    margin-right: 0px;
   }
 
   .foto-box{
@@ -335,7 +354,7 @@ border-radius:10px;
   display:none;
   font-size:24px;
   cursor:pointer;
-  margin-bottom:20px;
+  margin-bottom:30px;
 }
 @media (max-width:650px){
 
@@ -464,6 +483,23 @@ border-radius:10px;
   .perfil-content{
     margin-left:0;
   }
+  .perfil-header{
+    justify-content:flex-start;
+    gap:10px;
+  }
+
+  .header-left{
+    display:none;
+  }
+
+  .student-tag{
+    display:none;
+  }
+
+  .mobile-back{
+    display:block;
+  }
+
 }
 .atualizar-senha{
   margin-top:12px;
@@ -506,4 +542,33 @@ border-radius:10px;
     margin-top:15px;
   }
 
+}
+.perfil-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-group-perfil {
+  width: 100%;
+}
+
+.atualizar-senha {
+  width: 100%;
+}
+.perfil-card.center-only {
+  justify-content: center;
+} 
+.perfil-right {
+  width: 100%;
+  max-width: 400px;
+}
+.perfil-left{
+  margin-right: 20%;
+}
+@media (max-width:1115px){
+  .perfil-left{
+    margin-right: 0%;
+  }
 }

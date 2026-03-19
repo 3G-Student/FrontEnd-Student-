@@ -2,10 +2,12 @@ import "./perfil.css";
 import { useNavigate } from "react-router-dom";
 import { FaUpload, FaArrowLeft } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import Logo from "../../../assets/logo.svg";
 
 export default function PerfilProfessor() {
 
   const navigate = useNavigate();
+  const tipoUsuario = Number(localStorage.getItem("idTipoUsuario"));
 
   const [popupSucesso, setPopupSucesso] = useState(false);
   const [popupErro, setPopupErro] = useState("");
@@ -14,48 +16,55 @@ export default function PerfilProfessor() {
   const [novaSenha, setNovaSenha] = useState("");
   const [totalObservacoes, setTotalObservacoes] = useState(0);
   const [alunosRecuperacao, setAlunosRecuperacao] = useState(0);
+  const voltarPagina = () => {
+    if (tipoUsuario === 1) {
+      navigate("/aluno");
+    } else if (tipoUsuario === 3) {
+      navigate("/admin");
+    } else {
+      navigate("/professores");
+    }
+  };
 
   const backendURL = import.meta.env.VITE_BACKEND_URL;
-  // regex validação senha
+
   const validarSenha = (senha) => {
     const regex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/;
     return regex.test(senha);
   };
 
-  // buscar perfil
   useEffect(() => {
     const usuarioId = localStorage.getItem("idUsuario");
     const token = localStorage.getItem("token");
-  
+
     if (!usuarioId) {
       console.error("ID do usuário não encontrado");
       return;
     }
+
     fetch(`${backendURL}/api/Usuario/perfil/${usuarioId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Erro ao buscar perfil");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      setNome(data.nome);
-      setEmail(data.email);
-    })
-    .catch((error) => {
-      console.error("Erro:", error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar perfil");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setNome(data.nome);
+        setEmail(data.email);
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
   }, []);
 
-  // atualizar senha
   const atualizarSenha = async () => {
-
     const idUsuario = localStorage.getItem("idUsuario");
     const token = localStorage.getItem("token");
 
@@ -87,9 +96,11 @@ export default function PerfilProfessor() {
           }),
         }
       );
+
       if (!response.ok) {
         throw new Error("Erro ao atualizar senha");
       }
+
       setPopupSucesso(true);
       setTimeout(() => setPopupSucesso(false), 3000);
       setNovaSenha("");
@@ -97,23 +108,24 @@ export default function PerfilProfessor() {
       console.error(error);
       setPopupErro("Usuário não encontrado");
       setTimeout(() => setPopupErro(""), 3000);
-      return;     
     }
   };
 
   useEffect(() => {
-
     const idProfessor = localStorage.getItem("idProfessor");
     const token = localStorage.getItem("token");
-  
+
     if (!idProfessor) return;
-  
-    fetch(`${backendURL}/api/Observacao/buscarObservacoesPorIdProfessor/${idProfessor}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+
+    fetch(
+      `${backendURL}/api/Observacao/buscarObservacoesPorIdProfessor/${idProfessor}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Erro ao buscar observações");
@@ -122,27 +134,27 @@ export default function PerfilProfessor() {
       })
       .then((data) => {
         setTotalObservacoes(data.length);
-  
       })
       .catch((error) => {
         console.error("Erro ao buscar observações:", error);
       });
-  
   }, []);
 
   useEffect(() => {
-
     const idProfessor = localStorage.getItem("idProfessor");
     const token = localStorage.getItem("token");
-  
+
     if (!idProfessor) return;
-  
-    fetch(`${backendURL}/api/Professor/buscarAlunosDeRecuperacaoPorIdProfessor/${idProfessor}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+
+    fetch(
+      `${backendURL}/api/Professor/buscarAlunosDeRecuperacaoPorIdProfessor/${idProfessor}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Erro ao buscar alunos em recuperação");
@@ -155,100 +167,98 @@ export default function PerfilProfessor() {
       .catch((error) => {
         console.error("Erro:", error);
       });
-  
   }, []);
 
   return (
     <div className="perfil-page">
-
+  
       <aside className="perfil-sidebar">
-        <div className="sidebar-perfil" onClick={() => navigate("/professores")}>
-          <div className="avatar-sidebar"><FaArrowLeft /></div>
+        <div
+          className="sidebar-perfil"
+          onClick={voltarPagina}>
+          <div className="avatar-sidebar">
+            <FaArrowLeft />
+          </div>
         </div>
       </aside>
-
+  
       <div className="perfil-content">
-        <div className="mobile-back-button" onClick={() => navigate("/professores")}>
+  
+        <div
+          className="mobile-back-button"
+          onClick={voltarPagina}>
           <FaArrowLeft />
         </div>
-
+  
         <header className="perfil-header">
-
+  
           <div className="header-mobile">
-            <FaArrowLeft className="mobile-back" onClick={() => navigate("/professores")}/>
+            <FaArrowLeft
+              className="mobile-back"
+              onClick={voltarPagina}/>
           </div>
-
+  
           <div className="header-left">
             <div>
               <h2>Perfil</h2>
               <span className="sub">Professor</span>
             </div>
           </div>
-
-          <span className="student-tag" onClick={() => navigate("/professores")}>
-            STUDENT <span>+</span>
-          </span>
-
+  
+          <img src={Logo} alt="" 
+            className="student-tag"
+            onClick={voltarPagina}>
+          </img>
+  
         </header>
-        <div className="mobile-back-button" onClick={() => navigate("/professores")}>
-          <FaArrowLeft />
-        </div>
-
-        <div className="perfil-card">
-          <div className="perfil-left">
-            <div className="avatar-professor">
-              {nome ? nome.charAt(0).toUpperCase() : "P"}
-            </div>
-            <h3 className="prof-nome">{nome}</h3>
-            <p className="prof-email">{email}</p>
-            <div className="perfil-stats-left">
-              <div className="prof-info-extra">
-                <span>Tipo de conta</span>
-                <strong className="strong-tipo">Professor</strong>
-              </div>
-              <div className="prof-info-extra">
-                <span>Status</span>
-                <strong className="status-ativo">Ativo</strong>
-              </div>
-              <div className="prof-info-extra">
-                <span>Observações</span>
-                <strong className="strong-tipo-observacao">{totalObservacoes}</strong>
-              </div>
-              <div className="prof-info-extra">
-                <span>Recuperação</span>
-                <strong className="recuperacao">{alunosRecuperacao}</strong>
-              </div>
-            </div>
-          </div>
+  
+        <div className="perfil-card center-only">
+  
           <div className="perfil-right">
-            <div className="input-group">
+  
+            <div className="input-group-perfil">
               <label>Nome</label>
               <input type="text" value={nome} readOnly />
             </div>
-            <div className="input-group">
+  
+            <div className="input-group-perfil">
               <label>Email</label>
               <input type="email" value={email} readOnly />
             </div>
-            <div className="input-group">
+  
+            <div className="input-group-perfil">
               <label>Nova senha</label>
-              <input type="password" value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)} placeholder="Digite a nova senha"/>
+              <input
+                type="password"
+                value={novaSenha}
+                onChange={(e) => setNovaSenha(e.target.value)}
+                placeholder="Digite a nova senha"
+              />
             </div>
-            <button className="atualizar-senha" onClick={atualizarSenha}>
+  
+            <button
+              className="atualizar-senha"
+              onClick={atualizarSenha}
+            >
               Atualizar senha
             </button>
+  
           </div>
         </div>
+  
+        {popupSucesso && (
+          <div className="toast-sucesso">
+            Senha atualizada com sucesso!
+          </div>
+        )}
+  
+        {popupErro && (
+          <div className="toast-erro">
+            {popupErro}
+          </div>
+        )}
+  
       </div>
-      {popupSucesso && (
-        <div className="toast-sucesso">
-          Senha atualizada com sucesso!
-        </div>
-      )}
-      {popupErro && (
-        <div className="toast-erro">
-          {popupErro}
-        </div>
-      )}
     </div>
   );
 }

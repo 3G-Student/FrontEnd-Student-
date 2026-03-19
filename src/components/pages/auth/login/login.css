@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #D2CBF8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.login-card {
+  width: 800px;
+  max-width: calc(100vw - 32px);
+  min-height: 560px;
+  padding: 44px 42px;
+  background-color: #695CAC;
+  border-radius: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+  width: 220px;
+  margin-bottom: 14px;
+}
+
+.welcome-text {
+  color: #FFFFFF;
+  font-size: 15px;
+  line-height: 1.4;
+  margin-bottom: 28px;
+  opacity: 0.95;
+}
+
+.input-group-login {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 80%;
+  align-items: center;
+}
+
+.password-wrapper {
+  width: 100%;
+  position: relative;
+  margin-top: 4px;
+}
+
+.input-group-login input {
+  width: 56%;
+  height: 60px;
+  border-radius: 12px;
+  border: 0;
+  background-color: #FFFFFF;
+  color: #524b99;
+  padding: 0 20px;
+  font-size: 16px;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.12);
+  margin-bottom: 5px;
+}
+
+.login-card input::placeholder,
+.password-wrapper input::placeholder {
+  color: #A098D5;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: none;
+  color: #6A5ACD;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.btn-login {
+  width: 44%;
+  height: 54px;
+  margin: 26px auto 0 auto;
+  border-radius: 12px;
+  border: none;
+  background-color: #EABC2C;
+  color: #5E57A5;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-login:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+.btn-login:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #f97777;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.login-text {
+  margin-top: 18px;
+  color: #DCD7F8;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.link-login {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
