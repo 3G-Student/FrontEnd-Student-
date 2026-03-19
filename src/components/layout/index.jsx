@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Perfil from "../../assets/perfil.svg";
 import "./SideBar.css"; 
 
 export default function Sidebar() {
@@ -12,7 +13,8 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-top">
         <div className="sidebar-perfil" onClick={() => navigate("/perfil")} title="Meu Perfil">
-          <div className="avatar-sidebar">{inicial}</div>
+          <img src={Perfil}  className="avatar-sidebar" />
+        
         </div>
       </div>
     </aside>
