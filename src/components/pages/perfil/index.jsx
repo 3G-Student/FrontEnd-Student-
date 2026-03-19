@@ -2,6 +2,7 @@ import "./perfil.css";
 import { useNavigate } from "react-router-dom";
 import { FaUpload, FaArrowLeft } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import Logo from "../../../assets/logo.svg";
 
 export default function PerfilProfessor() {
 
@@ -205,11 +206,10 @@ export default function PerfilProfessor() {
             </div>
           </div>
   
-          <span
+          <img src={Logo} alt="" 
             className="student-tag"
             onClick={voltarPagina}>
-            STUDENT <span>+</span>
-          </span>
+          </img>
   
         </header>
   
