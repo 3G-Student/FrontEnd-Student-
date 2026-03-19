@@ -96,13 +96,12 @@
     color: #2E2948;
     background-color: #f4f6ff;
     resize: none;
-    margin-top: 10px;
   }
   
   .enviadas {
     display: flex;
     flex-direction: column;
-    height: 368px;
+    height: 348px;
     background: #F8F7FF;
     border-radius: 30px;
     border: 2px solid #695CAC;
@@ -462,7 +461,7 @@
 
   .registrar-notass{
     background-color: #695CAC;
-    margin-left: 84.5%;
+    margin-left: 79%;
     margin-top: 12px;
     color: white;
   }
