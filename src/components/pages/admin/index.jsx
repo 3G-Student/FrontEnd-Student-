@@ -661,7 +661,6 @@ export function UserManagementDashboard({ mode }) {
   }
 };
   const backendURL = import.meta.env.VITE_BACKEND_URL;
-
   const token = localStorage.getItem("token");
 
   const authHeaders = useCallback(
@@ -815,19 +814,27 @@ export function UserManagementDashboard({ mode }) {
         entityCreated = true;
 
         if (data.disciplineIds?.length) {
-          const professorId = await resolveProfessorId({
-            backendURL,
-            headers: authHeaders(),
-            usuarioId,
-            entityData: professorData,
-          });
+          try {
+            const professorId = await resolveProfessorId({
+              backendURL,
+              headers: authHeaders(),
+              usuarioId,
+              entityData: professorData,
+            });
 
-          await createProfessorDisciplineLinks({
-            backendURL,
-            headers: authHeaders(),
-            professorId,
-            disciplinaIds: data.disciplineIds,
-          });
+            await createProfessorDisciplineLinks({
+              backendURL,
+              headers: authHeaders(),
+              professorId,
+              disciplinaIds: data.disciplineIds,
+            });
+
+          } catch (err) {
+            console.warn("Professor criado, mas erro ao vincular disciplinas:", err.message);
+
+            // NÃO quebra o fluxo
+            showNotification("Professor criado, mas houve erro ao vincular matérias.", "warning");
+          }
         }
       }
 
