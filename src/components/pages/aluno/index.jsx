@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import './aluno.css';
 import Logo from "../../../assets/logo.svg";
-import Sidebar from "../../SideBar";
+import Sidebar from "../../../components/layout";
 
 export default function DashboardAluno() {
   const [boletim, setBoletim] = useState([]);

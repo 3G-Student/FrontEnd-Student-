@@ -258,17 +258,17 @@ export default function PerfilProfessor() {
 
           <div className="perfil-right">
 
-            <div className="input-group">
+            <div className="input-group-perfil">
               <label>Nome</label>
               <input type="text" value={nome} readOnly />
             </div>
 
-            <div className="input-group">
+            <div className="input-group-perfil">
               <label>Email</label>
               <input type="email" value={email} readOnly />
             </div>
 
-            <div className="input-group">
+            <div className="input-group-perfil">
               <label>Nova senha</label>
               <input
                 type="password"

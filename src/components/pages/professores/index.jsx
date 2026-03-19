@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./professores.css";
 import Logo from "../../../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
-import SideBar from "../../../components/SideBar";
+import SideBar from "../../../components/layout";
 
 export default function DashboardProfessor() {
   const backendURL = "http://localhost:8080";

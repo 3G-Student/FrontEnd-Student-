@@ -7,8 +7,7 @@ import "./login.css";
 export default function Login() {
   const navigate = useNavigate();
   // const backendURL = import.meta.env.VITE_BACKEND_URL;
-  const backendURL = "http://localhost:8080"
-
+  const backendURL = "http://localhost:8080";
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [verSenha, setVerSenha] = useState(false);
@@ -20,25 +19,29 @@ export default function Login() {
       setErro("Preencha todos os campos");
       return;
     }
+
     try {
       setLoading(true);
       setErro(null);
+
       const response = await fetch(`${backendURL}/api/Usuario/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, senha }),
       });
 
-      if (!response.ok) throw new Error("Usuário ou senha inválidos");
+      if (!response.ok) {
+        throw new Error("Usuário ou senha inválidos");
+      }
 
       const data = await response.json();
-
       localStorage.setItem("token", data.token);
       localStorage.setItem("idUsuario", data.idUsuario);
       localStorage.setItem("idTipoUsuario", data.idTipoUsuario);
       localStorage.setItem("email", email);
       localStorage.setItem("idProfessor", data.idProfessor || "");
       localStorage.setItem("idAluno", data.idAluno || "");
+      localStorage.setItem("idSecretario", data.idSecretario || "");
 
       const tipo = Number(data.idTipoUsuario);
       if (tipo === 1) navigate("/aluno");
@@ -61,43 +64,47 @@ export default function Login() {
           Seja bem-vindo!<br />
           Realize seu login para prosseguir.
         </p>
-        
-        <div className="input-group">
-          <input 
-            type="email" 
-            placeholder="E-mail" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+
+        <div className="input-group-login">
+          <input
+            type="email"
+            placeholder="E-mail ou matrícula"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          
+
           <div className="password-wrapper">
-            <input 
-              type={verSenha ? "text" : "password"} 
-              placeholder="Senha" 
-              value={senha} 
-              onChange={(e) => setSenha(e.target.value)} 
+            <input
+              type={verSenha ? "text" : "password"}
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              className="password-wrapper-senha"
             />
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="password-toggle"
-              onClick={() => setVerSenha(!verSenha)}
+              onClick={() => setVerSenha((prev) => !prev)}
+              aria-label={verSenha ? "Ocultar senha" : "Exibir senha"}
             >
-              {verSenha ? <EyeOff size={22} /> : <Eye size={22} />}
+              {verSenha ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
         </div>
 
         {erro && <span className="error-message">{erro}</span>}
 
-        <button className="btn-login" onClick={loginBackend} disabled={loading}>
+        <button
+          className="btn-login"
+          onClick={loginBackend}
+          disabled={loading}
+        >
           {loading ? "Carregando..." : "Login"}
         </button>
 
         <p className="login-text">
           Não tem uma conta?<br />
-          <span className="link-login" onClick={() => navigate("/")}>
-            Clique aqui para se cadastrar
-          </span>
+          <span className="link-login" onClick={() => navigate("/")}>Clique aqui para se cadastrar</span>
         </p>
       </div>
     </div>
