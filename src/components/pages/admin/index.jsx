@@ -56,18 +56,12 @@ const DASHBOARD_CONFIG = {
     userTypeId: 3,
     supportsDisciplines: false,
     listEndpoints: [
-      "Secretario/listar",
-      "Secretaria/listar",
       "SecretarioAdm/listar",
-      "Secretario_adm/listar",
     ],
     createEndpoints: [
-      "Secretario/cadastrar",
-      "Secretaria/cadastrar",
       "SecretarioAdm/cadastrar",
-      "Secretario_adm/cadastrar",
     ],
-    deleteEndpoint: (id) => `Secretario/excluir/${id}`,
+    deleteEndpoint: (id) => `SecretarioAdm/excluir/${id}`,
     normalizeItem: (item, index, usersMap) => {
       const userId = item.usuarioId ?? item.idUsuario;
 
@@ -667,6 +661,7 @@ export function UserManagementDashboard({ mode }) {
   }
 };
   const backendURL = import.meta.env.VITE_BACKEND_URL;
+
   const token = localStorage.getItem("token");
 
   const authHeaders = useCallback(
